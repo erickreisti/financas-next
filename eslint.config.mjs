@@ -1,25 +1,46 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+// eslint.config.js
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import nextPlugin from "@next/eslint-plugin-next";
+import prettier from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export default tseslint.config(
+  // Ignorar pastas de build
+  { ignores: [".next/", "out/", "dist/"] },
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+  // Configuração básica JavaScript
+  js.configs.recommended,
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // Configuração TypeScript
+  ...tseslint.configs.recommendedTypeChecked,
+
+  // Configuração Next.js
   {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
+    plugins: {
+      "@next/next": nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
+    },
   },
-];
 
-export default eslintConfig;
+  // Configuração Prettier
+  {
+    plugins: {
+      prettier: prettier,
+    },
+    rules: {
+      ...eslintConfigPrettier.rules,
+      "prettier/prettier": "error",
+    },
+  },
+
+  // Configurações específicas por tipo de arquivo
+  {
+    files: ["**/*.js"],
+    ...tseslint.configs.disableTypeChecked,
+  },
+);

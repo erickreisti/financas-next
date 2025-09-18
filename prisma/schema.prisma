@@ -1,0 +1,37 @@
+// prisma/schema.prisma
+
+// Configura o gerador do cliente Prisma
+generator client {
+  provider = "prisma-client-js"  // Usa o cliente JavaScript/TypeScript
+}
+
+// Configura a fonte de dados (banco de dados)
+datasource db {
+  provider = "postgresql"        // Tipo de banco: PostgreSQL
+  url      = env("DATABASE_URL") // URL do banco de dados do arquivo .env
+}
+
+// Modelo de usuário
+model User {
+  id            String     @id @default(cuid())  // ID único usando CUID
+  email         String     @unique               // Email único
+  name          String?                          // Nome opcional (pode ser null)
+  image         String?                          // Imagem de perfil opcional
+  transactions  Transaction[]                    // Relacionamento: um usuário tem muitas transações
+  createdAt     DateTime   @default(now())       // Data de criação automática
+  updatedAt     DateTime   @updatedAt            // Data de atualização automática
+}
+
+// Modelo de transação
+model Transaction {
+  id          String   @id @default(cuid())    // ID único usando CUID
+  type        String   // Tipo: "receita" ou "despesa"
+  description String   // Descrição da transação
+  category    String   // Categoria (ex: alimentação, transporte)
+  amount      Float    // Valor (número decimal)
+  date        DateTime @default(now())         // Data da transação
+  userId      String   // ID do usuário (chave estrangeira)
+  user        User     @relation(fields: [userId], references: [id]) // Relacionamento com User
+  createdAt   DateTime @default(now())         // Data de criação
+  updatedAt   DateTime @updatedAt              // Data de atualização
+}
