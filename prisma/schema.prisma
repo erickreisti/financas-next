@@ -2,36 +2,91 @@
 
 // Configura o gerador do cliente Prisma
 generator client {
-  provider = "prisma-client-js"  // Usa o cliente JavaScript/TypeScript
+  provider = "prisma-client-js"  // Gera cliente JavaScript/TypeScript
+  output   = "../node_modules/.prisma/client"  // Onde salvar o cliente gerado
 }
 
 // Configura a fonte de dados (banco de dados)
 datasource db {
-  provider = "postgresql"        // Tipo de banco: PostgreSQL
-  url      = env("DATABASE_URL") // URL do banco de dados do arquivo .env
+  provider = "sqlite"        // Tipo de banco: SQLite (para desenvolvimento)
+  url      = "file:./dev.db" // URL do banco SQLite local
 }
 
 // Modelo de usuário
 model User {
   id            String     @id @default(cuid())  // ID único usando CUID
-  email         String     @unique               // Email único
+  email         String     @unique               // Email único (não repetido)
   name          String?                          // Nome opcional (pode ser null)
   image         String?                          // Imagem de perfil opcional
+  accounts      Account[]                        // Relacionamento: um usuário tem muitas contas
+  sessions      Session[]                        // Relacionamento: um usuário tem muitas sessões
   transactions  Transaction[]                    // Relacionamento: um usuário tem muitas transações
   createdAt     DateTime   @default(now())       // Data de criação automática
   updatedAt     DateTime   @updatedAt            // Data de atualização automática
 }
 
-// Modelo de transação
+// Modelo de conta (para autenticação OAuth)
+model Account {
+  id                String  @id @default(cuid())  // ID único usando CUID
+  userId            String                         // ID do usuário (chave estrangeira)
+  type              String                         // Tipo de conta (OAuth, credencial, etc.)
+  provider          String                         // Provedor (Google, GitHub, etc.)
+  providerAccountId String                         // ID da conta no provedor
+  refresh_token     String?                        // Token de refresh (opcional)
+  access_token      String?                        // Token de acesso (opcional)
+  expires_at        Int?                           // Expiração do token (opcional)
+  token_type        String?                        // Tipo de token (opcional)
+  scope             String?                        // Escopo de permissões (opcional)
+  id_token          String?                        // ID token (opcional)
+  session_state     String?                        // Estado da sessão (opcional)
+  
+  // Relacionamento com User: pertence a um usuário
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt         DateTime @default(now())        // Data de criação
+  updatedAt         DateTime @updatedAt             // Data de atualização
+
+  // Índice único para combinação de provedor e ID da conta
+  @@unique([provider, providerAccountId])
+}
+
+// Modelo de sessão (para manter usuários logados)
+model Session {
+  id           String   @id @default(cuid())     // ID único da sessão
+  sessionToken String   @unique                  // Token único da sessão
+  userId       String                          // ID do usuário (chave estrangeira)
+  expires      DateTime                        // Data de expiração da sessão
+  
+  // Relacionamento com User: pertence a um usuário
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())         // Data de criação
+  updatedAt    DateTime @updatedAt              // Data de atualização
+}
+
+// Modelo de transação financeira
 model Transaction {
   id          String   @id @default(cuid())    // ID único usando CUID
   type        String   // Tipo: "receita" ou "despesa"
   description String   // Descrição da transação
-  category    String   // Categoria (ex: alimentação, transporte)
-  amount      Float    // Valor (número decimal)
+  category    String   // Categoria (alimentação, transporte, etc.)
+  amount      Float    // Valor da transação (número decimal)
   date        DateTime @default(now())         // Data da transação
   userId      String   // ID do usuário (chave estrangeira)
-  user        User     @relation(fields: [userId], references: [id]) // Relacionamento com User
+  
+  // Relacionamento com User: pertence a um usuário
+  user        User     @relation(fields: [userId], references: [id])
+  
   createdAt   DateTime @default(now())         // Data de criação
   updatedAt   DateTime @updatedAt              // Data de atualização
+}
+
+// Modelo para tokens de verificação (recuperação de senha, etc.)
+model VerificationToken {
+  identifier String   // Identificador (email, telefone, etc.)
+  token      String   @unique  // Token único
+  expires    DateTime // Data de expiração
+
+  // Índice único para combinação de identificador e token
+  @@unique([identifier, token])
 }
