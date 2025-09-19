@@ -3,21 +3,21 @@
 // Configura o gerador do cliente Prisma
 generator client {
   provider = "prisma-client-js"  // Gera cliente JavaScript/TypeScript
-  output   = "../node_modules/.prisma/client"  // Onde salvar o cliente gerado
 }
 
 // Configura a fonte de dados (banco de dados)
 datasource db {
-  provider = "sqlite"        // Tipo de banco: SQLite (para desenvolvimento)
-  url      = "file:./dev.db" // URL do banco SQLite local
+  provider = "sqlite"           // Tipo de banco: SQLite (para desenvolvimento)
+  url      = "file:./dev.db"     // URL do banco SQLite local
 }
 
 // Modelo de usuário
 model User {
   id            String     @id @default(cuid())  // ID único usando CUID
-  email         String     @unique               // Email único (não repetido)
+  email         String     @unique               // Email único
   name          String?                          // Nome opcional (pode ser null)
   image         String?                          // Imagem de perfil opcional
+  password      String?                          // Senha hash (opcional para OAuth)
   accounts      Account[]                        // Relacionamento: um usuário tem muitas contas
   sessions      Session[]                        // Relacionamento: um usuário tem muitas sessões
   transactions  Transaction[]                    // Relacionamento: um usuário tem muitas transações
