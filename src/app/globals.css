@@ -1,39 +1,141 @@
-/* Diretivas do Tailwind CSS */
-
+/* src/app/globals.css */
+/* Diretivas do Tailwind CSS - NÃO REMOVER */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Variáveis CSS personalizadas */
+/* Variáveis CSS personalizadas para cores e espaçamentos */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /* Cores principais do tema CLARO */
+  --foreground-rgb: 0, 0, 0; /* Texto preto no modo claro */
+  --background-start-rgb: 214, 219, 220; /* Fundo inicial (gradiente) */
+  --background-end-rgb: 255, 255, 255; /* Fundo final (gradiente) */
+
+  /* Cores do tema ESCURO */
+  --dark-foreground-rgb: 255, 255, 255; /* Texto branco no modo escuro */
+  --dark-background-start-rgb: 0, 0, 0; /* Fundo escuro inicial */
+  --dark-background-end-rgb: 0, 0, 0; /* Fundo escuro final */
+
+  /* Cores de marca */
+  --primary: #007bff; /* Azul primário */
+  --primary-dark: #0056b3; /* Azul primário escuro */
+  --success: #28a745; /* Verde sucesso */
+  --danger: #dc3545; /* Vermelho erro/perigo */
+  --warning: #ffc107; /* Amarelo aviso */
+  --info: #17a2b8; /* Azul informação */
+  --light: #f8f9fa; /* Cinza claro */
+  --dark: #343a40; /* Cinza escuro */
+
+  /* Escala de cinzas */
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+
+  /* Espaçamentos */
+  --spacer-1: 0.25rem; /* 4px */
+  --spacer-2: 0.5rem; /* 8px */
+  --spacer-3: 1rem; /* 16px */
+  --spacer-4: 1.5rem; /* 24px */
+  --spacer-5: 3rem; /* 48px */
+
+  /* Bordas */
+  --border-radius: 8px; /* Arredondamento padrão */
+  --border-radius-lg: 12px; /* Arredondamento grande */
+  --border-radius-sm: 4px; /* Arredondamento pequeno */
+
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  /* Transições */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
 }
 
 /* Variáveis para modo escuro */
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: var(--dark-foreground-rgb);
+    --background-start-rgb: var(--dark-background-start-rgb);
+    --background-end-rgb: var(--dark-background-end-rgb);
   }
 }
 
-/* Estilos globais */
+/* Estilos globais do body - MODO CLARO (padrão) */
 body {
-  color: rgb(var(--foreground-rgb));
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
+  color: rgb(var(--foreground-rgb)); /* Texto preto no modo claro */
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
-/* Classe para suavizar fontes */
+/* Estilos para MODO ESCURO */
+body.dark {
+  background-color: #1a1a1a; /* Fundo muito escuro */
+  color: #e0e0e0; /* Texto claro */
+}
+
+/* Classe utilitária para suavizar fontes */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Estilos para scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+body.dark ::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }
