@@ -64,22 +64,32 @@ export default function DashboardPage() {
               {/* Coluna Esquerda */}
               <div className="dashboard-column">
                 {/* Estatísticas Rápidas */}
-                <DashboardStats />
+                <div className="card">
+                  <DashboardStats />
+                </div>
 
                 {/* Gráfico Financeiro */}
-                <FinancialChart />
+                <div className="card">
+                  <FinancialChart />
+                </div>
 
                 {/* Transações Recentes */}
-                <RecentTransactions />
+                <div className="card">
+                  <RecentTransactions />
+                </div>
               </div>
 
               {/* Coluna Direita */}
               <div className="sidebar-column">
                 {/* Ações Rápidas */}
-                <QuickActions />
+                <div className="card">
+                  <QuickActions />
+                </div>
 
                 {/* Visão Geral do Orçamento */}
-                <BudgetOverview />
+                <div className="card">
+                  <BudgetOverview />
+                </div>
 
                 {/* Metas */}
                 <div className="goals-card">

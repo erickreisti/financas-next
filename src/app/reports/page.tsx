@@ -1,4 +1,4 @@
-// src/app/reports/page.tsx - PROFISSIONAL (CORRIGIDO)
+// src/app/reports/page.tsx - LAYOUT REFACTORADO E MELHORADO
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -13,14 +13,14 @@ import {
   BarChart3,
   PieChart,
   TrendingUp,
-  Download,
   ArrowUp,
   ArrowDown,
   Calendar,
+  Download,
   Filter,
+  ChevronDown,
 } from "lucide-react";
 
-// Tipos para os dados do relatório
 interface CategoryData {
   income: number;
   expenses: number;
@@ -45,6 +45,7 @@ export default function ReportsPage() {
   const [reportType, setReportType] = useState<
     "overview" | "categories" | "trends"
   >("overview");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // Filtra transações baseado no período selecionado
   const filteredTransactions = useMemo(() => {
@@ -155,160 +156,188 @@ export default function ReportsPage() {
     [totalIncome, totalExpenses, netSavings, savingsRate]
   );
 
-  // Estilos CSS inline para componentes (pode ser movido para CSS modules)
-  const styles = {
-    professionalLayout: "min-h-screen bg-gray-50",
-    layoutContent: "flex",
-    mainContent: "flex-1 lg:ml-64",
-    pageContainer: "p-6 max-w-7xl mx-auto",
-    pageHeader: "mb-8",
-    headerContent:
-      "flex flex-col lg:flex-row lg:items-center lg:justify-between",
-    headerText: "mb-4 lg:mb-0",
-    pageTitle: "text-3xl font-bold text-gray-900 mb-2",
-    pageDescription: "text-gray-600",
-    headerActions: "flex items-center gap-4",
-    reportControls: "bg-white rounded-xl shadow-sm p-6 mb-6",
-    controlsContent:
-      "flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4",
-    timeFilters: "flex gap-2 flex-wrap",
-    timeFilter: `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 
-                border border-gray-200 hover:border-gray-300 hover:bg-gray-50
-                active:scale-95`,
-    activeTimeFilter: `bg-blue-500 text-white border-blue-500 hover:bg-blue-600 
-                      hover:border-blue-600`,
-    reportTabs: "flex gap-1 bg-gray-100 rounded-xl p-1",
-    reportTab: `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium 
-               transition-all duration-200 hover:bg-white active:scale-95`,
-    activeReportTab: "bg-white shadow-sm text-blue-600",
-    kpiSection: "mb-8",
-    kpiGrid: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
-    kpiCard:
-      "bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-200",
-    kpiHeader: "flex items-center justify-between mb-4",
-    kpiIcon: `w-12 h-12 rounded-xl flex items-center justify-center 
-             bg-opacity-10 text-white`,
-    kpiChange: `flex items-center gap-1 text-sm font-medium px-2 py-1 rounded-full`,
-    kpiContent: "space-y-2",
-    kpiTitle: "text-gray-600 text-sm font-medium",
-    kpiValue: "text-2xl font-bold text-gray-900",
-    reportContent: "bg-white rounded-xl shadow-sm p-6",
-    overviewGrid: "grid grid-cols-1 lg:grid-cols-3 gap-6",
-    chartSection: "lg:col-span-2",
-    breakdownSection: "lg:col-span-1",
-    categoriesGrid: "grid grid-cols-1 gap-6",
-    trendsGrid: "grid grid-cols-1 gap-6",
-    fullWidthSection: "col-span-1 lg:col-span-3",
-  };
-
-  // Cores dinâmicas para os ícones
-  const getColorClass = (color: string) => {
-    const colors: Record<string, string> = {
-      green: "bg-green-500 bg-opacity-10 text-green-600",
-      red: "bg-red-500 bg-opacity-10 text-red-600",
-      blue: "bg-blue-500 bg-opacity-10 text-blue-600",
-      purple: "bg-purple-500 bg-opacity-10 text-purple-600",
-      orange: "bg-orange-500 bg-opacity-10 text-orange-600",
-    };
-    return colors[color] || colors.blue;
-  };
-
-  const getTrendClass = (trend: string) => {
-    return trend === "up"
-      ? "bg-green-50 text-green-700"
-      : "bg-red-50 text-red-700";
-  };
-
   const getTrendIcon = (trend: string) => {
     return trend === "up" ? ArrowUp : ArrowDown;
   };
 
   return (
-    <div className={styles.professionalLayout}>
+    <div className="professional-layout">
       <Header />
-
-      <div className={styles.layoutContent}>
+      <div className="layout-content">
         <Sidebar />
-
-        <main className={styles.mainContent}>
-          <div className={styles.pageContainer}>
+        <main className="main-content">
+          <div className="reports-container">
             {/* Cabeçalho */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className={styles.pageHeader}
+              className="page-header"
             >
-              <div className={styles.headerContent}>
-                <div className={styles.headerText}>
-                  <h1 className={styles.pageTitle}>Relatórios Financeiros</h1>
-                  <p className={styles.pageDescription}>
+              <div className="header-content">
+                <div className="header-text">
+                  <h1 className="page-title">Relatórios Financeiros</h1>
+                  <p className="page-subtitle">
                     Análises detalhadas, insights e métricas do seu desempenho
                     financeiro
                   </p>
                 </div>
-
-                <div className={styles.headerActions}>
-                  {/* ✅ REMOVIDA A PROPRIEDADE transactions que causava o erro */}
+                <div className="action-buttons">
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                  >
+                    <Filter className="w-4 h-4" />
+                    <span>Filtros Avançados</span>
+                    <ChevronDown
+                      className={`w-3 h-3 transition-transform ${showAdvancedFilters ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  <button className="btn btn-secondary">
+                    <Download className="w-4 h-4" />
+                    <span>Exportar PDF</span>
+                  </button>
                   <ExportReports />
                 </div>
               </div>
             </motion.div>
+
+            {/* Filtros Avançados */}
+            {showAdvancedFilters && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="advanced-filters-card"
+              >
+                <div className="advanced-filters-grid">
+                  <div className="filter-field">
+                    <label className="filter-label">Categoria</label>
+                    <select className="filter-select">
+                      <option value="">Todas as categorias</option>
+                      <option value="alimentacao">Alimentação</option>
+                      <option value="transporte">Transporte</option>
+                      <option value="lazer">Lazer</option>
+                      <option value="saude">Saúde</option>
+                    </select>
+                  </div>
+                  <div className="filter-field">
+                    <label className="filter-label">Tipo</label>
+                    <select className="filter-select">
+                      <option value="">Todos os tipos</option>
+                      <option value="receita">Receita</option>
+                      <option value="despesa">Despesa</option>
+                    </select>
+                  </div>
+                  <div className="filter-field">
+                    <label className="filter-label">Valor Mínimo</label>
+                    <input
+                      type="number"
+                      className="filter-input"
+                      placeholder="R$ 0,00"
+                    />
+                  </div>
+                  <div className="filter-field">
+                    <label className="filter-label">Valor Máximo</label>
+                    <input
+                      type="number"
+                      className="filter-input"
+                      placeholder="R$ 10.000,00"
+                    />
+                  </div>
+                </div>
+                <div className="filter-actions">
+                  <button className="btn btn-secondary">Limpar Filtros</button>
+                  <button className="btn btn-primary">Aplicar Filtros</button>
+                </div>
+              </motion.div>
+            )}
 
             {/* Filtros de Período */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className={styles.reportControls}
+              className="filters-card"
             >
-              <div className={styles.controlsContent}>
-                <div className={styles.timeFilters}>
-                  {[
-                    { value: "7d", label: "7 dias" },
-                    { value: "30d", label: "30 dias" },
-                    { value: "90d", label: "90 dias" },
-                    { value: "1y", label: "1 ano" },
-                  ].map((range) => (
-                    <button
-                      key={range.value}
-                      onClick={() => setTimeRange(range.value as any)}
-                      className={`${styles.timeFilter} ${
-                        timeRange === range.value ? styles.activeTimeFilter : ""
-                      }`}
-                    >
-                      {range.label}
-                    </button>
-                  ))}
+              <div className="filters-content">
+                <div className="period-filters-section">
+                  <h3 className="filters-section-title">
+                    Período do Relatório
+                  </h3>
+                  <div className="period-filters-grid">
+                    {[
+                      { value: "7d", label: "7 dias", icon: Calendar },
+                      { value: "30d", label: "30 dias", icon: Calendar },
+                      { value: "90d", label: "90 dias", icon: Calendar },
+                      { value: "1y", label: "1 ano", icon: Calendar },
+                    ].map((range) => {
+                      const Icon = range.icon;
+                      return (
+                        <button
+                          key={range.value}
+                          onClick={() => setTimeRange(range.value as any)}
+                          className={`period-filter-btn ${timeRange === range.value ? "active" : ""}`}
+                        >
+                          <div className="period-btn-content">
+                            <Icon className="period-btn-icon" />
+                            <span className="period-btn-label">
+                              {range.label}
+                            </span>
+                          </div>
+                          {timeRange === range.value && (
+                            <div className="period-btn-indicator" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                <div className={styles.reportTabs}>
-                  {[
-                    {
-                      value: "overview",
-                      label: "Visão Geral",
-                      icon: BarChart3,
-                    },
-                    {
-                      value: "categories",
-                      label: "Categorias",
-                      icon: PieChart,
-                    },
-                    { value: "trends", label: "Tendências", icon: TrendingUp },
-                  ].map((tab) => {
-                    const Icon = tab.icon;
-                    return (
-                      <button
-                        key={tab.value}
-                        onClick={() => setReportType(tab.value as any)}
-                        className={`${styles.reportTab} ${
-                          reportType === tab.value ? styles.activeReportTab : ""
-                        }`}
-                      >
-                        <Icon className="w-4 h-4" />
-                        <span>{tab.label}</span>
-                      </button>
-                    );
-                  })}
+                <div className="report-type-section">
+                  <h3 className="filters-section-title">Tipo de Relatório</h3>
+                  <div className="report-tabs">
+                    {[
+                      {
+                        value: "overview",
+                        label: "Visão Geral",
+                        icon: BarChart3,
+                        description: "Visão completa",
+                      },
+                      {
+                        value: "categories",
+                        label: "Categorias",
+                        icon: PieChart,
+                        description: "Análise por categoria",
+                      },
+                      {
+                        value: "trends",
+                        label: "Tendências",
+                        icon: TrendingUp,
+                        description: "Evolução temporal",
+                      },
+                    ].map((tab) => {
+                      const Icon = tab.icon;
+                      return (
+                        <button
+                          key={tab.value}
+                          onClick={() => setReportType(tab.value as any)}
+                          className={`report-tab-btn ${reportType === tab.value ? "active" : ""}`}
+                        >
+                          <div className="report-tab-icon">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="report-tab-content">
+                            <span className="report-tab-label">
+                              {tab.label}
+                            </span>
+                            <span className="report-tab-description">
+                              {tab.description}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -318,9 +347,15 @@ export default function ReportsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className={styles.kpiSection}
+              className="kpi-section"
             >
-              <div className={styles.kpiGrid}>
+              <div className="section-header">
+                <h2 className="section-title">Métricas Principais</h2>
+                <p className="section-subtitle">
+                  Desempenho financeiro no período selecionado
+                </p>
+              </div>
+              <div className="kpi-grid">
                 {kpiCards.map((kpi, index) => {
                   const Icon = kpi.icon;
                   const TrendIcon = getTrendIcon(kpi.trend);
@@ -328,28 +363,28 @@ export default function ReportsPage() {
                   return (
                     <motion.div
                       key={kpi.title}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
                       transition={{ delay: 0.1 * index }}
-                      className={styles.kpiCard}
+                      className="kpi-card"
                     >
-                      <div className={styles.kpiHeader}>
+                      <div className="kpi-header">
                         <div
-                          className={`${styles.kpiIcon} ${getColorClass(kpi.color)}`}
+                          className={`kpi-icon-container ${kpi.color === "green" ? "kpi-icon-success" : kpi.color === "red" ? "kpi-icon-error" : kpi.color === "blue" ? "kpi-icon-primary" : kpi.color === "purple" ? "kpi-icon-info" : "kpi-icon-warning"}`}
                         >
-                          <Icon className="w-5 h-5" />
+                          <Icon className="kpi-icon" />
                         </div>
                         <div
-                          className={`${styles.kpiChange} ${getTrendClass(kpi.trend)}`}
+                          className={`kpi-trend ${kpi.trend === "up" ? "trend-up" : "trend-down"}`}
                         >
-                          <TrendIcon className="w-3 h-3" />
-                          {kpi.change}
+                          <TrendIcon className="trend-icon" />
+                          <span className="trend-value">{kpi.change}</span>
                         </div>
                       </div>
 
-                      <div className={styles.kpiContent}>
-                        <h3 className={styles.kpiTitle}>{kpi.title}</h3>
-                        <p className={styles.kpiValue}>
+                      <div className="kpi-content">
+                        <h3 className="kpi-title">{kpi.title}</h3>
+                        <p className="kpi-value">
                           {kpi.isPercentage
                             ? `${kpi.value.toFixed(1)}%`
                             : new Intl.NumberFormat("pt-BR", {
@@ -369,48 +404,62 @@ export default function ReportsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className={styles.reportContent}
+              className="report-content-section"
             >
-              {reportType === "overview" && (
-                <div className={styles.overviewGrid}>
-                  <div className={styles.chartSection}>
-                    <AnalyticsChart
-                      timeRange={timeRange}
-                      transactions={filteredTransactions}
-                    />
-                  </div>
-                  <div className={styles.breakdownSection}>
-                    <CategoryBreakdown
-                      data={categoryBreakdown}
-                      timeRange={timeRange}
-                    />
-                  </div>
-                </div>
-              )}
+              <div className="section-header">
+                <h2 className="section-title">
+                  {reportType === "overview" && "Visão Geral do Período"}
+                  {reportType === "categories" && "Análise por Categorias"}
+                  {reportType === "trends" && "Tendências e Evolução"}
+                </h2>
+              </div>
 
-              {reportType === "categories" && (
-                <div className={styles.categoriesGrid}>
-                  <div className={styles.fullWidthSection}>
-                    <CategoryBreakdown
-                      data={categoryBreakdown}
-                      detailed
-                      timeRange={timeRange}
-                    />
+              <div className="report-content-card">
+                {reportType === "overview" && (
+                  <div className="overview-grid">
+                    <div className="overview-chart">
+                      <div className="card">
+                        <AnalyticsChart
+                          timeRange={timeRange}
+                          transactions={filteredTransactions}
+                        />
+                      </div>
+                    </div>
+                    <div className="overview-breakdown">
+                      <div className="card">
+                        <CategoryBreakdown
+                          data={categoryBreakdown}
+                          timeRange={timeRange}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {reportType === "trends" && (
-                <div className={styles.trendsGrid}>
-                  <div className={styles.fullWidthSection}>
-                    <AnalyticsChart
-                      timeRange={timeRange}
-                      showTrends
-                      transactions={filteredTransactions}
-                    />
+                {reportType === "categories" && (
+                  <div className="categories-content">
+                    <div className="card">
+                      <CategoryBreakdown
+                        data={categoryBreakdown}
+                        detailed
+                        timeRange={timeRange}
+                      />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+
+                {reportType === "trends" && (
+                  <div className="trends-content">
+                    <div className="card">
+                      <AnalyticsChart
+                        timeRange={timeRange}
+                        showTrends
+                        transactions={filteredTransactions}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </motion.div>
 
             {/* Resumo do Período */}
@@ -418,41 +467,57 @@ export default function ReportsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="mt-6 bg-white rounded-xl shadow-sm p-6"
+              className="period-summary-section"
             >
-              <div className="flex items-center gap-2 mb-4">
-                <Calendar className="w-5 h-5 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Resumo do Período Selecionado
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-gray-600">Total de Transações</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {filteredTransactions.length}
-                  </p>
+              <div className="card">
+                <div className="summary-header">
+                  <div className="summary-title-section">
+                    <Calendar className="summary-icon" />
+                    <h3 className="card-title">
+                      Resumo do Período Selecionado
+                    </h3>
+                  </div>
+                  <div className="period-badge">
+                    {timeRange === "7d" && "7 Dias"}
+                    {timeRange === "30d" && "30 Dias"}
+                    {timeRange === "90d" && "90 Dias"}
+                    {timeRange === "1y" && "1 Ano"}
+                  </div>
                 </div>
 
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-gray-600">Dias Analisados</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {timeRange === "7d"
-                      ? 7
-                      : timeRange === "30d"
-                        ? 30
-                        : timeRange === "90d"
-                          ? 90
-                          : 365}
-                  </p>
-                </div>
+                <div className="summary-grid">
+                  <div className="summary-item">
+                    <div className="summary-item-content">
+                      <p className="summary-label">Total de Transações</p>
+                      <p className="summary-value">
+                        {filteredTransactions.length}
+                      </p>
+                    </div>
+                  </div>
 
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <p className="text-gray-600">Categorias Utilizadas</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {Object.keys(categoryBreakdown).length}
-                  </p>
+                  <div className="summary-item">
+                    <div className="summary-item-content">
+                      <p className="summary-label">Dias Analisados</p>
+                      <p className="summary-value">
+                        {timeRange === "7d"
+                          ? 7
+                          : timeRange === "30d"
+                            ? 30
+                            : timeRange === "90d"
+                              ? 90
+                              : 365}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="summary-item">
+                    <div className="summary-item-content">
+                      <p className="summary-label">Categorias Utilizadas</p>
+                      <p className="summary-value">
+                        {Object.keys(categoryBreakdown).length}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
