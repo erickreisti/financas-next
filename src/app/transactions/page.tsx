@@ -20,7 +20,7 @@ import FilterBar from "@/components/FilterBar";
 import TransactionList from "@/components/TransactionList";
 
 // Interface para dados de transação PARA CRIAÇÃO (sem ID)
-// ✅ TransactionData = dados que usuário digita (sem ID ainda)
+// TransactionData = dados que usuário digita (sem ID ainda)
 interface TransactionData {
   type: "receita" | "despesa"; // Tipo restrito a essas duas opções apenas
   description: string; // Descrição obrigatória (texto)
@@ -31,7 +31,7 @@ interface TransactionData {
 }
 
 // Interface para transação COMPLETA (com ID - do banco)
-// ✅ Transaction = dados completos (com ID gerado pelo banco)
+// Transaction = dados completos (com ID gerado pelo banco)
 interface Transaction extends TransactionData {
   id: string; // ID único da transação (CUID do Prisma)
   createdAt: string; // Data de criação (string ISO)
@@ -39,30 +39,30 @@ interface Transaction extends TransactionData {
 }
 
 // Componente TransactionsPage: página com todas transações
-// ✅ CLIENT COMPONENT por causa dos hooks (use client acima)
+// CLIENT COMPONENT por causa dos hooks (use client acima)
 export default function TransactionsPage() {
   // Usa hooks dos contextos para acessar dados
-  // ✅ DESTRUCTURING para acessar funções e dados do contexto de transações
+  // DESTRUCTURING para acessar funções e dados do contexto de transações
   const { transactions, deleteTransaction } = useTransactions();
 
-  // ✅ DESTRUCTURING para acessar funções e dados do contexto de tema
+  // DESTRUCTURING para acessar funções e dados do contexto de tema
   const { darkMode, toggleDarkMode } = useTheme();
 
   // Estados locais para filtros e ordenação (não precisam estar no contexto)
-  // ✅ useState COM TIPAGEM EXPLÍCITA
+  // useState COM TIPAGEM EXPLÍCITA
   const [filterType, setFilterType] = useState<string>("todas"); // Filtro por tipo
   const [filterCategory, setFilterCategory] = useState<string>("todas"); // Filtro por categoria
   const [isSorted, setIsSorted] = useState<boolean>(false); // Controle de ordenação
 
   // Função para alternar ordenação das transações
-  // ✅ FUNÇÃO PURA PARA ALTERAR ESTADO
+  // FUNÇÃO PURA PARA ALTERAR ESTADO
   const toggleSort = (): void => {
     // Inverte o valor atual do estado isSorted
     setIsSorted(!isSorted);
   };
 
   // Função para alterar filtros (tipo ou categoria)
-  // ✅ FUNÇÃO PURA PARA ALTERAR ESTADOS DE FILTRO
+  // FUNÇÃO PURA PARA ALTERAR ESTADOS DE FILTRO
   const handleFilterChange = (filterName: string, value: string): void => {
     // Verifica qual filtro está sendo alterado e atualiza o estado correspondente
     if (filterName === "type") {
@@ -73,7 +73,7 @@ export default function TransactionsPage() {
   };
 
   // Filtra transações baseado nos filtros selecionados
-  // ✅ FILTRAGEM DE DADOS COM LÓGICA DE NEGÓCIO
+  // FILTRAGEM DE DADOS COM LÓGICA DE NEGÓCIO
   const filteredTransactions = transactions.filter((transaction) => {
     const typeMatch = filterType === "todas" || transaction.type === filterType;
     const categoryMatch =
@@ -82,7 +82,7 @@ export default function TransactionsPage() {
   });
 
   // Ordena transações se isSorted for true
-  // ✅ ORDENAÇÃO DE DADOS COM LÓGICA DE NEGÓCIO
+  // ORDENAÇÃO DE DADOS COM LÓGICA DE NEGÓCIO
   const sortedTransactions = isSorted
     ? [...filteredTransactions].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -90,7 +90,7 @@ export default function TransactionsPage() {
     : filteredTransactions;
 
   // Retorna JSX do componente
-  // ✅ JSX COM DADOS PROCESSADOS E HOOKS
+  // JSX COM DADOS PROCESSADOS E HOOKS
   return (
     // Div principal com classes Tailwind para layout
     <div className="min-h-screen flex flex-col">
@@ -106,7 +106,7 @@ export default function TransactionsPage() {
         <h1 className="text-3xl font-bold mb-8">📋 Transações</h1>
 
         {/* Barra de filtros usando componente reutilizável */}
-        {/* ✅ PASSA TODOS FILTROS E FUNÇÕES DO CONTEXTO */}
+        {/* PASSA TODOS FILTROS E FUNÇÕES DO CONTEXTO */}
         <FilterBar
           filterType={filterType}
           filterCategory={filterCategory}
@@ -123,7 +123,7 @@ export default function TransactionsPage() {
         </div>
 
         {/* Lista de transações usando componente reutilizável */}
-        {/* ✅ PASSA TRANSAÇÕES FILTRADAS/ORDENADAS E FUNÇÃO DELETE DO CONTEXTO */}
+        {/* PASSA TRANSAÇÕES FILTRADAS/ORDENADAS E FUNÇÃO DELETE DO CONTEXTO */}
         <TransactionList
           transactions={sortedTransactions}
           onDeleteTransaction={deleteTransaction}

@@ -3,8 +3,8 @@
 "use server";
 
 // Importa cliente Prisma e funções auxiliares do Next.js
-import { prisma } from "@/lib/prisma"; // ✅ Cliente Prisma para banco de dados
-import { revalidatePath } from "next/cache"; // ✅ Função para revalidar cache de páginas
+import { prisma } from "@/lib/prisma"; // Cliente Prisma para banco de dados
+import { revalidatePath } from "next/cache"; // Função para revalidar cache de páginas
 
 // Interface para definir a estrutura dos dados de transação
 // Isso garante type safety - o TypeScript sabe exatamente quais campos esperar

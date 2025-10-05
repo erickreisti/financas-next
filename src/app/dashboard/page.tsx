@@ -10,24 +10,24 @@ import Saldo from "@/components/Saldo";
 import TransactionList from "@/components/TransactionList";
 import TransactionForm from "@/components/TransactionForm";
 
-// ✅ CORREÇÃO: Interface para dados do formulário (date como string)
+// Interface para dados do formulário (date como string)
 interface TransactionFormData {
   type: "receita" | "despesa";
   description: string;
   category: string;
   amount: number;
-  date: string; // ✅ String do input HTML
+  date: string; //  String do input HTML
   userId: string;
 }
 
-// ✅ CORREÇÃO: Interface para transação completa (date como Date)
+// Interface para transação completa (date como Date)
 interface Transaction {
   id: string;
   type: "receita" | "despesa";
   description: string;
   category: string;
   amount: number;
-  date: Date; // ✅ Date do banco de dados
+  date: Date; // Date do banco de dados
   userId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -40,16 +40,16 @@ export default function DashboardPage() {
 
   const recentTransactions = transactions.slice(-5);
 
-  // ✅ CORREÇÃO: Função que converte TransactionFormData → Transaction
+  // Função que converte TransactionFormData → Transaction
   const handleAddTransaction = async (
-    formData: TransactionFormData // ✅ Recebe dados do formulário
+    formData: TransactionFormData // Recebe dados do formulário
   ): Promise<void> => {
     try {
       // Converte string para Date antes de criar a transação completa
       const newTransaction: Transaction = {
         id: Date.now().toString(),
         ...formData,
-        date: new Date(formData.date), // ✅ CONVERSÃO string → Date
+        date: new Date(formData.date), // CONVERSÃO string → Date
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -83,10 +83,10 @@ export default function DashboardPage() {
             Adicionar Nova Transação
           </h2>
 
-          {/* ✅ TransactionForm envia TransactionFormData (date como string) */}
+          {/* TransactionForm envia TransactionFormData (date como string) */}
           <TransactionForm
             userId="user-test-id"
-            onAddTransaction={handleAddTransaction} // ✅ Recebe TransactionFormData
+            onAddTransaction={handleAddTransaction} // Recebe TransactionFormData
           />
         </div>
       </main>
