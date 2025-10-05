@@ -32,27 +32,27 @@ const FilterBar = ({
     // ✅ CONTAINER FLEXÍVEL COM GAP E MARGEM ABAIXO
     <div className="filters">
       {/* Select para filtrar por tipo de transação */}
-      // ✅ SELECT CONTROLADO COM VALUE E ONCHANGE
+
       <select
         value={filterType} // Valor controlado pelo estado do componente pai
         // Quando muda, chama onFilterChange com 'type' e novo valor
         onChange={(e) => onFilterChange("type", e.target.value)}
       >
         {/* Opções de filtro por tipo */}
-        // ✅ OPÇÕES COM EMOJIS PARA UX MELHORADA
+
         <option value="todas">Todas</option>
         <option value="receita">🟢 Receitas</option>
         <option value="despesa">🔴 Despesas</option>
       </select>
       {/* Select para filtrar por categoria */}
-      // ✅ SELECT CONTROLADO COM VALUE E ONCHANGE
+
       <select
         value={filterCategory} // Valor controlado pelo estado do componente pai
         // Quando muda, chama onFilterChange com 'category' e novo valor
         onChange={(e) => onFilterChange("category", e.target.value)}
       >
         {/* Opções de filtro por categoria */}
-        // ✅ OPÇÕES DE CATEGORIA COM NOMES AMIGÁVEIS
+
         <option value="todas">Todas as categorias</option>
         <option value="salario">Salário</option>
         <option value="alimentacao">Alimentação</option>
@@ -63,14 +63,14 @@ const FilterBar = ({
         <option value="outros">Outros</option>
       </select>
       {/* Botão para ordenar transações por data */}
-      // ✅ BOTÃO COM ESTILOS DINÂMICOS BASEADOS NO ESTADO
+
       <button
         type="button" // Tipo de botão explícito (boa prática)
         className={`btn-${isSorted ? "success" : "outline"}`} // Classe CSS dinâmica
         onClick={onSort} // Quando clicado, chama função do componente pai
       >
         {/* Texto dinâmico baseado no estado de ordenação */}
-        // ✅ TEXTO DINÂMICO PARA FEEDBACK VISUAL
+
         {isSorted ? "📅 Ordenado por data" : "📅 Ordenar por data"}
       </button>
     </div>

@@ -53,7 +53,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   // ✅ RETORNA JSX DO PROVIDER DE TEMA
   return (
     <ThemeContext.Provider value={contextValue}>
-      {children} // Componentes filhos que vão usar o contexto de tema
+      {children}
     </ThemeContext.Provider>
   );
 };

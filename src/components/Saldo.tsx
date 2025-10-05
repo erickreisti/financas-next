@@ -38,17 +38,17 @@ const Saldo = ({ total }: SaldoProps) => {
     // ✅ SECTION SEMÂNTICA PARA CONTEÚDO RELACIONADO
     <section className="saldo-section">
       {/* Título da seção */}
-      // ✅ H2 SEMÂNTICO PARA TÍTULO SECUNDÁRIO
+
       <h2>Saldo Total</h2>
       {/* Div que mostra o valor do saldo */}
-      // ✅ DIV COM STYLE INLINE PARA COR DINÂMICA
+
       <div
         className="saldo"
         // style inline: aplica cor dinâmica baseada no saldo
         style={{ color: getSaldoColor() }}
       >
         {/* Mostra o saldo formatado como moeda */}
-        // ✅ FORMATAR VALOR COMO MOEDA BRASILEIRA
+
         {formatCurrency(total)}
       </div>
     </section>

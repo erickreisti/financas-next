@@ -33,25 +33,18 @@ export default function Navigation() {
     // ✅ NAVIGATION SEMÂNTICA COM BORDA INFERIOR
     <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
       {/* Container flexível para itens de menu */}
-      // ✅ CONTAINER RESPONSIVO COM MAX-WIDTH E PADDING
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Flex container para itens de navegação */}
-        // ✅ FLEXBOX PARA ALINHAR ITENS DE NAVEGAÇÃO
+
         <div className="flex justify-between h-16">
           {/* Seção esquerda da navegação */}
-          // ✅ FLEX-SHRINK-0 PARA EVITAR ENCOLHER LOGO
+
           <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              {/* Logo da aplicação */}
-              // ✅ LOGO COM EMOJI PARA IDENTIFICAÇÃO
-              <span className="font-bold text-xl">💰</span>
-            </div>
             {/* Menu de navegação em desktop */}
-            // ✅ SM:ML-6 PARA MARGEM EM DESKTOP // ✅ SM:FLEX PARA MOSTRAR EM
-            DESKTOP // ✅ SM:SPACE-X-8 PARA ESPAÇO ENTRE ITENS
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {/* Mapeia itens de navegação para elementos JSX */}
-              // ✅ MAP PARA RENDERIZAR ITENS DINAMICAMENTE
+
               {navItems.map((item) => (
                 // Cada item de menu com key única (importante para React)
                 // ✅ KEY ÚNICA PARA PERFORMANCE DO REACT

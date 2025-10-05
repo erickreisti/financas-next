@@ -158,7 +158,7 @@ export const TransactionProvider: React.FC<{ children: React.ReactNode }> = ({
   // ✅ PROVIDER ENVOLVE COMPONENTES FILHOS E FORNECE VALOR DO CONTEXTO
   return (
     <TransactionContext.Provider value={contextValue}>
-      {children} // Componentes filhos que vão usar o contexto de transações
+      {children}
     </TransactionContext.Provider>
   );
 };
