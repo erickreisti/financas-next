@@ -3,7 +3,6 @@
 
 import React from "react";
 import { useTransactions } from "@/contexts/TransactionContext";
-import { useTheme } from "@/contexts/ThemeContext";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import Saldo from "@/components/Saldo";
@@ -36,7 +35,6 @@ interface Transaction {
 export default function DashboardPage() {
   const { transactions, addTransaction, deleteTransaction, calculateTotal } =
     useTransactions();
-  const { darkMode, toggleDarkMode } = useTheme();
 
   const recentTransactions = transactions.slice(-5);
 

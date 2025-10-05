@@ -7,9 +7,7 @@ import React, { useState } from "react";
 
 // Importa hooks customizados dos contextos criados
 // useTransactions: hook para acessar contexto de transações
-// useTheme: hook para acessar contexto de tema
 import { useTransactions } from "@/contexts/TransactionContext";
-import { useTheme } from "@/contexts/ThemeContext";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 
@@ -44,9 +42,6 @@ export default function TransactionsPage() {
   // Usa hooks dos contextos para acessar dados
   // DESTRUCTURING para acessar funções e dados do contexto de transações
   const { transactions, deleteTransaction } = useTransactions();
-
-  // DESTRUCTURING para acessar funções e dados do contexto de tema
-  const { darkMode, toggleDarkMode } = useTheme();
 
   // Estados locais para filtros e ordenação (não precisam estar no contexto)
   // useState COM TIPAGEM EXPLÍCITA

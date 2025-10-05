@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 // Componente de layout principal - envolve toda a aplicação
-// ✅ LAYOUT GLOBAL COM PROVIDERS DE CONTEXTO
+// LAYOUT GLOBAL COM PROVIDERS DE CONTEXTO
 export default function RootLayout({
   children, // Conteúdo das páginas filhas
 }: Readonly<{
@@ -54,9 +54,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Providers para contexto global - devem envolver toda a árvore de componentes */}
-        {/* ✅ THEME PROVIDER DEVE VIR POR FORA PARA QUE TRANSACTION PROVIDER POSSA USÁ-LO */}
+        {/* THEME PROVIDER DEVE VIR POR FORA PARA QUE TRANSACTION PROVIDER POSSA USÁ-LO */}
         <ThemeProvider>
-          {/* ✅ TRANSACTION PROVIDER ENVOLVE TODA ÁRVORE DE COMPONENTES QUE PRECISAM DE TRANSAÇÕES */}
+          {/* TRANSACTION PROVIDER ENVOLVE TODA ÁRVORE DE COMPONENTES QUE PRECISAM DE TRANSAÇÕES */}
           <TransactionProvider>
             {/* Conteúdo das páginas filhas será injetado aqui */}
             {children}

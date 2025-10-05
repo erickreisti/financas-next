@@ -7,9 +7,7 @@ import React from "react";
 
 // Importa hooks dos contextos criados
 // useTransactions para acessar transações e funções
-// useTheme para acessar tema e função toggle
 import { useTransactions } from "@/contexts/TransactionContext";
-import { useTheme } from "@/contexts/ThemeContext";
 
 // Importa componentes reutilizáveis
 // Header: cabeçalho da aplicação (usa contexto internamente)
@@ -23,9 +21,6 @@ export default function ReportsPage() {
   // Usa hooks dos contextos para acessar dados
   // DESTRUCTURING para acessar funções e dados do contexto de transações
   const { transactions } = useTransactions();
-
-  // DESTRUCTURING para acessar funções e dados do contexto de tema
-  const { darkMode, toggleDarkMode } = useTheme();
 
   // Objeto para mapear chaves de categoria para nomes amigáveis
   // MAPEAMENTO DE CATEGORIAS PARA NOMES LEGÍVEIS
