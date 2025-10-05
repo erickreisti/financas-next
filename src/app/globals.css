@@ -1,8 +1,11 @@
 /* src/app/globals.css */
 /* Diretivas do Tailwind CSS - NÃO REMOVER */
-@tailwind base; /* Estilos base (normalize.css) */
-@tailwind components; /* Componentes do Tailwind */
-@tailwind utilities; /* Classes utilitárias */
+/* Estilos base (normalize.css) */
+@tailwind base;
+/* Componentes do Tailwind */
+@tailwind components;
+/* Classes utilitárias */
+@tailwind utilities;
 
 /* Variáveis CSS personalizadas para cores e espaçamentos */
 :root {
