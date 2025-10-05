@@ -1,8 +1,17 @@
-// src/components/TransactionList.tsx - Com ícones melhores
+// src/components/TransactionList.tsx - PROFISSIONAL
 "use client";
 
 import React from "react";
-import { Trash2, TrendingUp, TrendingDown, Calendar, Tag } from "lucide-react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import {
+  TrendingUp,
+  TrendingDown,
+  Calendar,
+  Tag,
+  MoreVertical,
+  Trash2,
+  Edit3,
+} from "lucide-react";
 
 interface Transaction {
   id: string;
@@ -19,12 +28,16 @@ interface Transaction {
 interface TransactionListProps {
   transactions: Transaction[];
   onDeleteTransaction: (id: string) => void;
+  onEditTransaction?: (id: string) => void;
 }
 
 const TransactionList = ({
   transactions,
   onDeleteTransaction,
+  onEditTransaction,
 }: TransactionListProps) => {
+  const [activeMenu, setActiveMenu] = React.useState<string | null>(null);
+
   const categoryNames: { [key: string]: string } = {
     salario: "Salário",
     alimentacao: "Alimentação",
@@ -36,7 +49,11 @@ const TransactionList = ({
   };
 
   const formatDate = (date: Date): string => {
-    return date.toLocaleDateString("pt-BR");
+    return new Date(date).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
   };
 
   const formatCurrency = (value: number): string => {
@@ -46,75 +63,199 @@ const TransactionList = ({
     }).format(value);
   };
 
+  const getCategoryColor = (category: string) => {
+    const colors: { [key: string]: string } = {
+      salario:
+        "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+      alimentacao:
+        "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+      transporte:
+        "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
+      lazer:
+        "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
+      saude: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+      educacao:
+        "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300",
+      outros:
+        "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300",
+    };
+    return colors[category] || colors.outros;
+  };
+
+  const toggleMenu = (id: string) => {
+    setActiveMenu(activeMenu === id ? null : id);
+  };
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24,
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: -50,
+      transition: {
+        duration: 0.2,
+      },
+    },
+  };
+
+  const menuVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
+  };
+
   return (
-    <ul className="space-y-3">
-      {transactions.length === 0 ? (
-        <li className="text-center py-8 text-gray-500 dark:text-gray-400">
-          Nenhuma transação encontrada
-        </li>
-      ) : (
-        transactions.map((transaction) => (
-          <li
-            key={transaction.id}
-            className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm border-l-4 p-4 transition-all hover:shadow-md ${
-              transaction.type === "receita"
-                ? "border-green-500"
-                : "border-red-500"
-            }`}
+    <div className="transactions-container">
+      <div className="transactions-header">
+        <h3 className="transactions-title">Todas as Transações</h3>
+        <div className="transactions-summary">
+          <span className="summary-text">
+            {transactions.length} transações encontradas
+          </span>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {transactions.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="empty-transactions"
           >
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
-                  {transaction.type === "receita" ? (
-                    <TrendingUp className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <TrendingDown className="w-4 h-4 text-red-500" />
-                  )}
-                  <strong className="text-gray-900 dark:text-white">
-                    {transaction.description}
-                  </strong>
-                </div>
-
-                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {formatDate(transaction.date)}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Tag className="w-3 h-3" />
-                    <span className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full text-xs">
-                      {categoryNames[transaction.category] ||
-                        transaction.category}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <span
-                  className={`text-lg font-bold ${
-                    transaction.type === "receita"
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  {transaction.type === "receita" ? "+" : "-"}
-                  {formatCurrency(transaction.amount)}
-                </span>
-
-                <button
-                  onClick={() => onDeleteTransaction(transaction.id)}
-                  className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
-                  aria-label="Deletar transação"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
+            <div className="empty-icon">💸</div>
+            <div className="empty-content">
+              <h4 className="empty-title">Nenhuma transação</h4>
+              <p className="empty-description">
+                Adicione sua primeira transação para começar a controlar suas
+                finanças
+              </p>
             </div>
-          </li>
-        ))
-      )}
-    </ul>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="transactions-grid"
+          >
+            {transactions.map((transaction) => (
+              <motion.div
+                key={transaction.id}
+                variants={itemVariants}
+                layout
+                exit="exit"
+                className={`transaction-card ${transaction.type === "receita" ? "transaction-income" : "transaction-expense"}`}
+              >
+                <div className="transaction-main">
+                  <div className="transaction-icon">
+                    {transaction.type === "receita" ? (
+                      <TrendingUp className="w-4 h-4" />
+                    ) : (
+                      <TrendingDown className="w-4 h-4" />
+                    )}
+                  </div>
+
+                  <div className="transaction-content">
+                    <div className="transaction-header">
+                      <h4 className="transaction-description">
+                        {transaction.description}
+                      </h4>
+                      <span
+                        className={`transaction-amount ${transaction.type === "receita" ? "amount-income" : "amount-expense"}`}
+                      >
+                        {transaction.type === "receita" ? "+" : "-"}
+                        {formatCurrency(transaction.amount)}
+                      </span>
+                    </div>
+
+                    <div className="transaction-details">
+                      <div className="transaction-meta">
+                        <div className="meta-item">
+                          <Calendar className="w-3 h-3" />
+                          <span>{formatDate(transaction.date)}</span>
+                        </div>
+                        <div className="meta-item">
+                          <Tag className="w-3 h-3" />
+                          <span
+                            className={`category-tag ${getCategoryColor(transaction.category)}`}
+                          >
+                            {categoryNames[transaction.category] ||
+                              transaction.category}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="transaction-actions">
+                  <div className="actions-menu">
+                    <button
+                      onClick={() => toggleMenu(transaction.id)}
+                      className="menu-trigger"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+
+                    <AnimatePresence>
+                      {activeMenu === transaction.id && (
+                        <motion.div
+                          variants={menuVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          className="menu-dropdown"
+                        >
+                          <button
+                            onClick={() => {
+                              onEditTransaction?.(transaction.id);
+                              setActiveMenu(null);
+                            }}
+                            className="menu-item edit-item"
+                          >
+                            <Edit3 className="w-4 h-4" />
+                            <span>Editar</span>
+                          </button>
+                          <button
+                            onClick={() => {
+                              onDeleteTransaction(transaction.id);
+                              setActiveMenu(null);
+                            }}
+                            className="menu-item delete-item"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            <span>Excluir</span>
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 

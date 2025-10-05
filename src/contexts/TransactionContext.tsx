@@ -6,7 +6,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Interface para definir a estrutura de uma transação COMPLETA
-interface Transaction {
+export interface Transaction {
   id: string; // ID único da transação (gerado com Date.now())
   type: "receita" | "despesa"; // Tipo restrito apenas a essas duas opções
   description: string; // Descrição da transação (ex: "Salário", "Aluguel")

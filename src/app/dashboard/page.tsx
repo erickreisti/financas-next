@@ -1,98 +1,125 @@
-// src/app/dashboard/page.tsx - Atualizado
+// src/app/dashboard/page.tsx - PROFISSIONAL
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTransactions } from "@/contexts/TransactionContext";
 import Header from "@/components/Header";
-import Navigation from "@/components/Navigation";
-import Saldo from "@/components/Saldo";
-import TransactionList from "@/components/TransactionList";
-import TransactionForm from "@/components/TransactionForm";
-import {
-  AnimatedCard,
-  SlideIn,
-  StaggerList,
-  StaggerItem,
-} from "@/components/AnimatedCard";
+import Sidebar from "@/components/Sidebar";
+import DashboardStats from "@/components/DashboardStats";
+import RecentTransactions from "@/components/RecentTransactions";
+import FinancialChart from "@/components/FinancialChart";
+import QuickActions from "@/components/QuickActions";
+import BudgetOverview from "@/components/BudgetOverview";
 
 export default function DashboardPage() {
-  const { transactions, addTransaction, deleteTransaction, calculateTotal } =
-    useTransactions();
+  const { transactions, calculateTotal } = useTransactions();
 
-  const recentTransactions = transactions.slice(-5);
-
-  const handleAddTransaction = async (formData: any): Promise<void> => {
-    try {
-      await addTransaction(formData);
-    } catch (error) {
-      console.error("Erro ao adicionar transação:", error);
-    }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col"
-    >
+    <div className="professional-layout">
       <Header />
-      <Navigation />
 
-      <main className="flex-1 container mx-auto py-8">
-        <SlideIn direction="down">
-          <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
-        </SlideIn>
+      <div className="layout-content">
+        <Sidebar />
 
-        {/* Saldo com animação */}
-        <AnimatedCard delay={0.1}>
-          <Saldo total={calculateTotal()} />
-        </AnimatedCard>
-
-        {/* Últimas transações com animação em lista */}
-        <AnimatedCard
-          delay={0.2}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8"
-        >
-          <h2 className="text-xl font-semibold mb-4">Últimas Transações</h2>
-          <AnimatePresence>
-            {recentTransactions.length > 0 ? (
-              <StaggerList>
-                <TransactionList
-                  transactions={recentTransactions}
-                  onDeleteTransaction={deleteTransaction}
-                />
-              </StaggerList>
-            ) : (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-gray-500 text-center py-8"
-              >
-                Nenhuma transação encontrada
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </AnimatedCard>
-
-        {/* Formulário com animação */}
-        <AnimatedCard
-          delay={0.3}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow p-6"
-        >
-          <motion.h2
-            className="text-xl font-semibold mb-4"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
+        <main className="main-content">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="dashboard-container"
           >
-            Adicionar Nova Transação
-          </motion.h2>
-          <TransactionForm
-            userId="user-test-id"
-            onAddTransaction={handleAddTransaction}
-          />
-        </AnimatedCard>
-      </main>
-    </motion.div>
+            {/* Cabeçalho do Dashboard */}
+            <div className="dashboard-header">
+              <div className="welcome-section">
+                <h1 className="welcome-title">Bem-vindo de volta! 👋</h1>
+                <p className="welcome-subtitle">
+                  Aqui está o resumo das suas finanças hoje
+                </p>
+              </div>
+              <div className="date-section">
+                <span className="current-date">
+                  {new Date().toLocaleDateString("pt-BR", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              </div>
+            </div>
+
+            {/* Grid de Conteúdo */}
+            <div className="dashboard-grid">
+              {/* Coluna Esquerda */}
+              <div className="dashboard-column">
+                {/* Estatísticas Rápidas */}
+                <DashboardStats />
+
+                {/* Gráfico Financeiro */}
+                <FinancialChart />
+
+                {/* Transações Recentes */}
+                <RecentTransactions />
+              </div>
+
+              {/* Coluna Direita */}
+              <div className="sidebar-column">
+                {/* Ações Rápidas */}
+                <QuickActions />
+
+                {/* Visão Geral do Orçamento */}
+                <BudgetOverview />
+
+                {/* Metas */}
+                <div className="goals-card">
+                  <h3 className="card-title">Metas Financeiras</h3>
+                  <div className="goals-list">
+                    <div className="goal-item">
+                      <div className="goal-info">
+                        <span className="goal-name">Reserva de Emergência</span>
+                        <span className="goal-progress">
+                          R$ 8.500 / R$ 15.000
+                        </span>
+                      </div>
+                      <div className="goal-bar">
+                        <div
+                          className="goal-progress-bar"
+                          style={{ width: "56%" }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="goal-item">
+                      <div className="goal-info">
+                        <span className="goal-name">Viagem Internacional</span>
+                        <span className="goal-progress">
+                          R$ 3.200 / R$ 10.000
+                        </span>
+                      </div>
+                      <div className="goal-bar">
+                        <div
+                          className="goal-progress-bar"
+                          style={{ width: "32%" }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </main>
+      </div>
+    </div>
   );
 }
