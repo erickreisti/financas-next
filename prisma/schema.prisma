@@ -1,91 +1,98 @@
 // prisma/schema.prisma
 
 // Configura o gerador do cliente Prisma
+// generator client: cria cliente JavaScript/TypeScript automaticamente
 generator client {
-  provider = "prisma-client-js"  // Gera cliente JavaScript/TypeScript
+  provider = "prisma-client-js"  // Usa o cliente JavaScript/TypeScript
 }
 
 // Configura a fonte de dados (banco de dados)
+// datasource db: define tipo e URL do banco de dados
 datasource db {
-  provider = "sqlite"           // Tipo de banco: SQLite (para desenvolvimento)
-  url      = "file:./dev.db"     // URL do banco SQLite local
+  provider = "sqlite"        // Tipo de banco: SQLite (para desenvolvimento local)
+  url      = "file:./dev.db" // URL do banco SQLite local (arquivo dev.db)
 }
 
-// Modelo de usuário
+// Modelo de usuário - TABELA USERS NO BANCO
 model User {
-  id            String     @id @default(cuid())  // ID único usando CUID
-  email         String     @unique               // Email único
+  id            String     @id @default(cuid())  // ID único usando CUID (string)
+  email         String     @unique               // Email único (não repetido)
   name          String?                          // Nome opcional (pode ser null)
   image         String?                          // Imagem de perfil opcional
-  password      String?                          // Senha hash (opcional para OAuth)
-  accounts      Account[]                        // Relacionamento: um usuário tem muitas contas
-  sessions      Session[]                        // Relacionamento: um usuário tem muitas sessões
-  transactions  Transaction[]                    // Relacionamento: um usuário tem muitas transações
+  password      String?                          // Senha hash opcional (para credenciais)
+  accounts      Account[]                        // Relacionamento 1:N (um usuário tem muitas contas)
+  sessions      Session[]                        // Relacionamento 1:N (um usuário tem muitas sessões)
+  transactions  Transaction[]                    // Relacionamento 1:N (um usuário tem muitas transações)
   createdAt     DateTime   @default(now())       // Data de criação automática
   updatedAt     DateTime   @updatedAt            // Data de atualização automática
 }
 
-// Modelo de conta (para autenticação OAuth)
+// Modelo de conta (para autenticação OAuth) - TABELA ACCOUNTS NO BANCO
 model Account {
   id                String  @id @default(cuid())  // ID único usando CUID
   userId            String                         // ID do usuário (chave estrangeira)
-  type              String                         // Tipo de conta (OAuth, credencial, etc.)
-  provider          String                         // Provedor (Google, GitHub, etc.)
-  providerAccountId String                         // ID da conta no provedor
-  refresh_token     String?                        // Token de refresh (opcional)
-  access_token      String?                        // Token de acesso (opcional)
-  expires_at        Int?                           // Expiração do token (opcional)
-  token_type        String?                        // Tipo de token (opcional)
-  scope             String?                        // Escopo de permissões (opcional)
+  type              String                         // Tipo conta (OAuth, credencial)
+  provider          String                         // Provedor (Google, GitHub)
+  providerAccountId String                         // ID conta no provedor
+  refresh_token     String?                        // Token refresh (opcional)
+  access_token      String?                        // Token acesso (opcional)
+  expires_at        Int?                           // Expiração (opcional)
+  token_type        String?                        // Tipo token (opcional)
+  scope             String?                        // Escopo permissões (opcional)
   id_token          String?                        // ID token (opcional)
-  session_state     String?                        // Estado da sessão (opcional)
+  session_state     String?                        // Estado sessão (opcional)
   
   // Relacionamento com User: pertence a um usuário
+  // @relation: define relacionamento entre tabelas
+  // fields: [userId] = campo local que referencia User
+  // references: [id] = campo em User que é referenciado
+  // onDelete: Cascade = deleta em cascata (se User deletado, Account também)
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  createdAt         DateTime @default(now())        // Data de criação
-  updatedAt         DateTime @updatedAt             // Data de atualização
+  createdAt         DateTime @default(now())        // Data criação automática
+  updatedAt         DateTime @updatedAt             // Data atualização automática
 
   // Índice único para combinação de provedor e ID da conta
+  // @@unique: garante unicidade combinada de campos
   @@unique([provider, providerAccountId])
 }
 
-// Modelo de sessão (para manter usuários logados)
+// Modelo de sessão (para manter usuários logados) - TABELA SESSIONS NO BANCO
 model Session {
   id           String   @id @default(cuid())     // ID único da sessão
   sessionToken String   @unique                  // Token único da sessão
   userId       String                          // ID do usuário (chave estrangeira)
-  expires      DateTime                        // Data de expiração da sessão
+  expires      DateTime                        // Data expiração da sessão
   
   // Relacionamento com User: pertence a um usuário
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  createdAt    DateTime @default(now())         // Data de criação
-  updatedAt    DateTime @updatedAt              // Data de atualização
+  createdAt    DateTime @default(now())         // Data criação automática
+  updatedAt    DateTime @updatedAt              // Data atualização automática
 }
 
-// Modelo de transação financeira
+// Modelo de transação financeira - TABELA TRANSACTIONS NO BANCO
 model Transaction {
   id          String   @id @default(cuid())    // ID único usando CUID
   type        String   // Tipo: "receita" ou "despesa"
   description String   // Descrição da transação
-  category    String   // Categoria (alimentação, transporte, etc.)
-  amount      Float    // Valor da transação (número decimal)
-  date        DateTime @default(now())         // Data da transação
+  category    String   // Categoria (ex: alimentação, transporte)
+  amount      Float    // Valor numérico (decimal)
+  date        DateTime @default(now())         // Data da transação automática
   userId      String   // ID do usuário (chave estrangeira)
   
   // Relacionamento com User: pertence a um usuário
   user        User     @relation(fields: [userId], references: [id])
   
-  createdAt   DateTime @default(now())         // Data de criação
-  updatedAt   DateTime @updatedAt              // Data de atualização
+  createdAt   DateTime @default(now())         // Data criação automática
+  updatedAt   DateTime @updatedAt              // Data atualização automática
 }
 
-// Modelo para tokens de verificação (recuperação de senha, etc.)
+// Modelo para tokens de verificação - TABELA VERIFICATIONTOKENS NO BANCO
 model VerificationToken {
-  identifier String   // Identificador (email, telefone, etc.)
+  identifier String   // Identificador (email, telefone)
   token      String   @unique  // Token único
-  expires    DateTime // Data de expiração
+  expires    DateTime // Data expiração
 
   // Índice único para combinação de identificador e token
   @@unique([identifier, token])

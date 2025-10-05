@@ -1,18 +1,18 @@
 /* src/app/globals.css */
 /* Diretivas do Tailwind CSS - NÃO REMOVER */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base; /* Estilos base (normalize.css) */
+@tailwind components; /* Componentes do Tailwind */
+@tailwind utilities; /* Classes utilitárias */
 
 /* Variáveis CSS personalizadas para cores e espaçamentos */
 :root {
   /* Cores principais do tema CLARO */
-  --foreground-rgb: 0, 0, 0; /* Texto preto no modo claro */
+  --foreground-rgb: 0, 0, 0; /* Texto padrão (preto) */
   --background-start-rgb: 214, 219, 220; /* Fundo inicial (gradiente) */
   --background-end-rgb: 255, 255, 255; /* Fundo final (gradiente) */
 
   /* Cores do tema ESCURO */
-  --dark-foreground-rgb: 255, 255, 255; /* Texto branco no modo escuro */
+  --dark-foreground-rgb: 255, 255, 255; /* Texto claro no modo escuro */
   --dark-background-start-rgb: 0, 0, 0; /* Fundo escuro inicial */
   --dark-background-end-rgb: 0, 0, 0; /* Fundo escuro final */
 
@@ -50,13 +50,13 @@
   --border-radius-sm: 4px; /* Arredondamento pequeno */
 
   /* Sombras */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12); /* Sombra pequena */
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra média */
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra grande */
 
   /* Transições */
-  --transition-fast: 0.2s ease-in-out;
-  --transition-normal: 0.3s ease-in-out;
+  --transition-fast: 0.2s ease-in-out; /* Transição rápida */
+  --transition-normal: 0.3s ease-in-out; /* Transição normal */
 }
 
 /* Variáveis para modo escuro */
@@ -68,7 +68,7 @@
   }
 }
 
-/* Estilos globais do body - MODO CLARO (padrão) */
+/* Estilos do corpo da página - MODO CLARO (padrão) */
 body {
   font-family:
     "Inter",
@@ -80,7 +80,7 @@ body {
     Ubuntu,
     Cantarell,
     sans-serif;
-  color: rgb(var(--foreground-rgb)); /* Texto preto no modo claro */
+  color: rgb(var(--foreground-rgb)); /* Texto preto */
   background: linear-gradient(
       to bottom,
       transparent,
@@ -102,6 +102,37 @@ body.dark {
   color: #e0e0e0; /* Texto claro */
 }
 
+body.dark .card {
+  background-color: #2d2d2d; /* Fundo escuro para cards */
+  border-color: #404040; /* Bordas escuras */
+}
+
+body.dark .card:hover {
+  border-color: #555; /* Bordas mais claras no hover */
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background-color: #333; /* Fundo escuro para inputs */
+  border-color: #555; /* Bordas escuras */
+  color: #e0e0e0; /* Texto claro */
+}
+
+body.dark input:focus,
+body.dark select:focus,
+body.dark textarea:focus {
+  border-color: var(--primary); /* Borda azul no foco */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra azul no foco */
+}
+
+/* Layout principal */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Classe utilitária para suavizar fontes */
 @layer utilities {
   .text-balance {
@@ -109,7 +140,7 @@ body.dark {
   }
 }
 
-/* Estilos para scrollbar personalizada */
+/* Scrollbar personalizada */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

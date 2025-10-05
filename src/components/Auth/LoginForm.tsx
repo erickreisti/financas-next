@@ -1,61 +1,90 @@
 // src/components/Auth/LoginForm.tsx
+// Diretiva use client - OBRIGATÓRIO para hooks no App Router
 "use client";
 
-// Importa React e hooks
+// Importa React e hooks necessários para criar componente interativo
+// useState: hook para gerenciar estado local
+// useEffect: hook para efeitos colaterais (carregar/salvar dados)
 import { useState } from "react";
 
 // Importa hook de autenticação personalizado
+// useAuth: hook customizado para lógica de autenticação
 import { useAuth } from "@/hooks/useAuth";
 
 // Componente de formulário de login
+// ✅ CLIENT COMPONENT por causa dos hooks (use client acima)
 export function LoginForm() {
-  // Estados para campos do formulário
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  // Estados locais para gerenciar o formulário de login
+  // ✅ useState COM TIPAGEM EXPLÍCITA
+  const [email, setEmail] = useState<string>(""); // Estado para email
+  const [password, setPassword] = useState<string>(""); // Estado para senha
+  const [isLoading, setIsLoading] = useState<boolean>(false); // Estado para loading
+  const [error, setError] = useState<string>(""); // Estado para erros
 
   // Hook de autenticação personalizado
+  // ✅ useAuth PARA ACESSAR FUNÇÕES DE AUTENTICAÇÃO
   const { login } = useAuth();
 
-  // Função para lidar com submit do formulário
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevenir comportamento padrão do formulário
+  // Função assíncrona para lidar com submit do formulário
+  // ✅ FUNÇÃO ASSÍNCRONA PARA OPERAÇÕES DE BANCO DE DADOS
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    // Previne comportamento padrão (recarregar página)
+    // ✅ PREVENT DEFAULT PARA EVITAR RELOAD
+    e.preventDefault();
 
-    // Limpar erro anterior
+    // Limpar erro anterior antes de tentar novo login
+    // ✅ LIMPEZA DE ESTADO ANTERIOR
     setError("");
-    setIsLoading(true);
+    setIsLoading(true); // Iniciar estado de loading
 
     try {
       // Tentar login com credenciais fornecidas
+      // ✅ CHAMADA ASSÍNCRONA PARA AUTENTICAÇÃO
       const result = await login(email, password);
 
-      // Se login falhou, mostrar erro
+      // Se login falhou, mostrar erro amigável
+      // ✅ TRATAMENTO DE ERRO DE AUTENTICAÇÃO
       if (!result.success) {
         setError(result.error || "Erro ao fazer login");
       }
     } catch (err) {
+      // Tratar erros inesperados
+      // ✅ TRATAMENTO DE ERROS INESPERADOS
       setError("Erro inesperado. Tente novamente.");
     } finally {
+      // Finalizar estado de loading independentemente do resultado
+      // ✅ FINALIZAÇÃO OTIMISTA DE ESTADO
       setIsLoading(false);
     }
   };
 
-  // Retornar JSX do formulário
+  // Retorna JSX do componente de formulário
+  // ✅ JSX COM ESTADOS CONTROLADOS E EVENT HANDLERS
   return (
+    // Div container com classes Tailwind para layout do formulário
+    // ✅ CONTAINER CENTRALIZADO COM SOMBRA E ARREDONDAMENTO
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      {/* Título do formulário de login */}
+      // ✅ TÍTULO CENTRALIZADO COM FONT-BOLD
       <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-
-      {/* Formulário de login */}
+      {/* Formulário de login com onSubmit chamando handleSubmit */}
+      // ✅ FORMULÁRIO COM SUBMIT CONTROLADO
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Campo de email */}
+        // ✅ GRUPO DE FORMULÁRIO COM LABEL E INPUT
         <div>
+          {/* Label para campo de email */}
+          // ✅ LABEL COM FONT-MEDIUM E MARGEM ABAIXO
           <label
             htmlFor="email"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Email
           </label>
+          {/* Input para email controlado pelo estado */}
+          // ✅ INPUT CONTROLADO COM VALUE E ONCHANGE
           <input
             id="email"
             type="email"
@@ -66,15 +95,19 @@ export function LoginForm() {
             placeholder="seu@email.com"
           />
         </div>
-
         {/* Campo de senha */}
+        // ✅ GRUPO DE FORMULÁRIO PARA SENHA
         <div>
+          {/* Label para campo de senha */}
+          // ✅ LABEL COM FONT-MEDIUM E MARGEM ABAIXO
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Senha
           </label>
+          {/* Input para senha controlado pelo estado */}
+          // ✅ INPUT PASSWORD CONTROLADO COM VALUE E ONCHANGE
           <input
             id="password"
             type="password"
@@ -85,22 +118,29 @@ export function LoginForm() {
             placeholder="Sua senha"
           />
         </div>
-
-        {/* Mensagem de erro */}
-        {error && <div className="text-red-500 text-sm">{error}</div>}
-
-        {/* Botão de submit */}
+        {/* Mensagem de erro se existir */}
+        // ✅ CONDICIONAL RENDERING PARA MENSAGENS DE ERRO
+        {error && (
+          // ✅ MENSAGEM DE ERRO COM CORES VERMELHAS
+          <div className="text-red-500 text-sm">{error}</div>
+        )}
+        {/* Botão de submit com estado de loading */}
+        // ✅ BOTÃO COM DISABLED E ESTILOS DINÂMICOS
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
+          {/* Texto dinâmico baseado no estado de loading */}
+          // ✅ TEXTO DINÂMICO PARA FEEDBACK VISUAL
           {isLoading ? "Entrando..." : "Entrar"}
         </button>
       </form>
-
       {/* Links para login social */}
+      // ✅ SEÇÃO DE LOGIN SOCIAL COM DIVISOR
       <div className="mt-6">
+        {/* Divisor com texto "Ou continue com" */}
+        // ✅ DIVISOR VISUAL COM TEXTO CENTRALIZADO
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
@@ -109,25 +149,27 @@ export function LoginForm() {
             <span className="px-2 bg-white text-gray-500">Ou continue com</span>
           </div>
         </div>
-
+        {/* Grid com botões de login social */}
+        // ✅ GRID COM 2 COLUNAS PARA BOTÕES SOCIAIS
         <div className="mt-6 grid grid-cols-2 gap-3">
           {/* Botão Google */}
+          // ✅ BOTÃO SOCIAL COM ÍCONE SVG
           <button
             type="button"
             className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
           >
             <span className="sr-only">Login com Google</span>
+            {/* Ícone SVG do Google */}
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" />
             </svg>
           </button>
-
-          {/* Botão GitHub */}
           <button
             type="button"
             className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
           >
             <span className="sr-only">Login com GitHub</span>
+            {/* Ícone SVG do GitHub */}
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 fillRule="evenodd"

@@ -1,128 +1,113 @@
 // src/components/TransactionForm.tsx
-// Diretiva use client - marca componente como Client Component para interatividade
+// Diretiva use client - componente interativo
 "use client";
 
-// Importa React e hooks do React
-import { useState } from "react"; // ✅ Hook para gerenciar estado local
+// Importa React e hooks
+import React, { useState } from "react";
 
-// Importa React Hook Form e resolvers Zod para validação de formulários
-import { useForm } from "react-hook-form"; // ✅ Gerenciamento avançado de formulários
-import { zodResolver } from "@hookform/resolvers/zod"; // ✅ Integração Zod + React Hook Form
+// Interface para dados de transação SEM ID (para criação)
+// ✅ TransactionData = dados que usuário digita (sem ID ainda)
+interface TransactionData {
+  type: "receita" | "despesa"; // Tipo restrito a essas duas opções
+  description: string; // Descrição obrigatória
+  category: string; // Categoria obrigatória
+  amount: number; // Valor numérico
+  date: Date; // Data como objeto Date
+  userId: string; // ID do usuário proprietário
+}
 
-// Importa esquemas Zod e tipos para validação type-safe
-import { transactionSchema, type TransactionFormData } from "@/lib/schemas"; // ✅ Validação e tipagem
+// Interface para definir o formato das props recebidas
+interface TransactionFormProps {
+  userId: string; // ID do usuário logado (necessário para associar transação)
+  onAddTransaction: (transactionData: TransactionData) => Promise<void>; // ✅ AGORA RECEBE TransactionData (sem ID)
+}
 
-// Importa Server Action para criar transação no servidor
-import { createTransaction } from "@/actions/transactionActions"; // ✅ Server Action
-
-// Componente funcional TransactionForm - recebe userId como prop
-export function TransactionForm({ userId }: { userId: string }) {
-  // ✅ Tipagem explícita da prop
-
-  // Estados locais para gerenciar loading e mensagens de feedback
-  const [isPending, setIsPending] = useState(false); // ✅ Estado para spinner/loading
+// Componente TransactionForm: formulário para adicionar transações
+// Recebe props tipadas
+const TransactionForm = ({
+  userId,
+  onAddTransaction,
+}: TransactionFormProps) => {
+  // Estados locais para loading e mensagens
+  const [isPending, setIsPending] = useState(false); // ✅ Estado para loading/spinner
   const [message, setMessage] = useState<{
-    // ✅ Estado para mensagens de sucesso/erro
-    type: "success" | "error"; // ✅ Tipo restrito a success ou error
-    text: string; // ✅ Texto da mensagem
-  } | null>(null); // ✅ Pode ser null (nenhuma mensagem)
+    type: "success" | "error";
+    text: string;
+  } | null>(null); // ✅ Estado para mensagens de feedback
 
-  // Configura React Hook Form com resolver Zod para validação automática
-  const {
-    register, // ✅ Função para registrar campos do formulário
-    handleSubmit, // ✅ Função para lidar com submit do formulário
-    formState: { errors }, // ✅ Estado com erros de validação
-    reset, // ✅ Função para resetar formulário
-  } = useForm<TransactionFormData>({
-    // ✅ Tipagem type-safe do formulário
-    resolver: zodResolver(transactionSchema), // ✅ Resolver Zod para validação
-    defaultValues: {
-      // ✅ Valores padrão para campos do formulário
-      type: "receita", // ✅ Tipo padrão: receita
-      date: new Date().toISOString().split("T")[0], // ✅ Data atual (formato YYYY-MM-DD)
-      userId: userId, // ✅ ID do usuário logado
-    },
-  });
+  // Função para lidar com submit do formulário
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Previne comportamento padrão (reload da página)
 
-  // Função assíncrona para lidar com submit do formulário
-  const onSubmit = async (data: TransactionFormData) => {
-    // ✅ Dados type-safe validados
-    setIsPending(true); // ✅ Iniciar estado de loading
-    setMessage(null); // ✅ Limpar mensagens anteriores
+    // Inicia estado de loading
+    setIsPending(true);
+    setMessage(null); // Limpa mensagens anteriores
 
     try {
-      // Chamar Server Action com dados validados do formulário
-      const result = await createTransaction(data); // ✅ Dados já validados pelo Zod!
+      // Obtém dados do formulário usando FormData API
+      const formData = new FormData(e.currentTarget);
 
-      // Verificar resultado da operação
-      if (result.success) {
-        // Se sucesso, mostrar mensagem positiva e resetar formulário
-        setMessage({ type: "success", text: "Transação criada com sucesso!" });
-        reset(); // ✅ Limpar todos campos do formulário
-      } else {
-        // Se erro, mostrar mensagem negativa
-        setMessage({
-          type: "error",
-          text: result.error || "Erro ao criar transação",
-        });
-      }
+      // Cria objeto TransactionData (sem ID) para envio ao contexto
+      const transactionData: TransactionData = {
+        type: formData.get("type") as "receita" | "despesa", // Type assertion
+        description: formData.get("description") as string, // Descrição
+        category: formData.get("category") as string, // Categoria
+        amount: parseFloat(formData.get("amount") as string), // Valor convertido
+        date: new Date(formData.get("date") as string), // ✅ Date convertida
+        userId: userId, // ID do usuário
+      };
+
+      // Chama Server Action com dados validados - CORREÇÃO 11
+      await onAddTransaction(transactionData); // ✅ AGORA RECEBE TransactionData (sem ID)
+
+      // Se sucesso, mostra mensagem positiva e limpa formulário
+      setMessage({ type: "success", text: "Transação criada com sucesso!" });
+      e.currentTarget.reset(); // Limpa formulário
     } catch (error) {
-      // Tratar erros inesperados
+      // Trata erros inesperados
       setMessage({ type: "error", text: "Erro ao processar formulário" });
     } finally {
-      // Finalizar estado de loading independentemente do resultado
-      setIsPending(false); // ✅ Sempre finaliza loading
+      // Finaliza estado de loading independentemente do resultado
+      setIsPending(false);
     }
   };
 
-  // Retornar JSX (interface do componente)
+  // Retorna JSX do componente
   return (
-    // Formulário com onSubmit chamando handleSubmit(onSubmit)
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    // Formulário com onSubmit chamando handleSubmit
+    <form onSubmit={handleSubmit} className="space-y-4">
       {/* Select para tipo de transação */}
       <div>
         <select
-          {...register("type")} // ✅ Registrar campo com Zod (validação automática)
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          name="type"
+          required
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         >
-          {/* Opções de tipo com emojis para melhor UX */}
+          <option value="">Selecione o tipo</option>
           <option value="receita">🟢 Receita</option>
           <option value="despesa">🔴 Despesa</option>
         </select>
-
-        {/* Mensagem de erro automática do Zod */}
-        {errors.type && (
-          <p className="text-red-500 text-sm dark:text-red-400">
-            {errors.type.message}{" "}
-            {/* ✅ Mensagem de erro personalizada do Zod */}
-          </p>
-        )}
       </div>
 
-      {/* Input para descrição da transação */}
+      {/* Input para descrição */}
       <div>
         <input
-          {...register("description")} // ✅ Registrar campo com Zod
-          placeholder="Descrição" // ✅ Placeholder para orientação
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          type="text"
+          name="description"
+          placeholder="Descrição"
+          required
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         />
-
-        {/* Mensagem de erro automática do Zod */}
-        {errors.description && (
-          <p className="text-red-500 text-sm dark:text-red-400">
-            {errors.description.message}{" "}
-            {/* ✅ Mensagem de erro personalizada */}
-          </p>
-        )}
       </div>
 
-      {/* Select para categoria da transação */}
+      {/* Select para categoria */}
       <div>
         <select
-          {...register("category")} // ✅ Registrar campo com Zod
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          name="category"
+          required
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-50500 dark:bg-gray-700 dark:text-white"
         >
-          {/* Opções de categoria */}
+          <option value="">Selecione a categoria</option>
           <option value="salario">Salário</option>
           <option value="alimentacao">Alimentação</option>
           <option value="transporte">Transporte</option>
@@ -131,71 +116,54 @@ export function TransactionForm({ userId }: { userId: string }) {
           <option value="educacao">Educação</option>
           <option value="outros">Outros</option>
         </select>
-
-        {/* Mensagem de erro automática do Zod */}
-        {errors.category && (
-          <p className="text-red-500 text-sm dark:text-red-400">
-            {errors.category.message} {/* ✅ Mensagem de erro personalizada */}
-          </p>
-        )}
       </div>
 
-      {/* Input para valor da transação */}
+      {/* Input para valor */}
       <div>
         <input
-          {...register("amount", { valueAsNumber: true })} // ✅ Converter string → número
-          type="number" // ✅ Tipo number para teclado numérico mobile
-          step="0.01" // ✅ Permitir casas decimais
-          placeholder="Valor (R$)" // ✅ Placeholder para orientação
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          type="number"
+          name="amount"
+          placeholder="Valor (R$)"
+          step="0.01"
+          required
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         />
-
-        {/* Mensagem de erro automática do Zod */}
-        {errors.amount && (
-          <p className="text-red-500 text-sm dark:text-red-400">
-            {errors.amount.message} {/* ✅ Mensagem de erro personalizada */}
-          </p>
-        )}
       </div>
 
-      {/* Input para data da transação */}
+      {/* Input para data */}
       <div>
         <input
-          {...register("date")} // ✅ Registrar campo com Zod
-          type="date" // ✅ Tipo date para calendário nativo
-          className="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          type="date"
+          name="date"
+          defaultValue={new Date().toISOString().split("T")[0]}
+          required
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         />
-
-        {/* Mensagem de erro automática do Zod */}
-        {errors.date && (
-          <p className="text-red-500 text-sm dark:text-red-400">
-            {errors.date.message} {/* ✅ Mensagem de erro personalizada */}
-          </p>
-        )}
       </div>
 
-      {/* Mensagens de feedback (sucesso ou erro) */}
+      {/* Mensagens de feedback */}
       {message && (
         <div
-          className={`p-3 rounded ${
+          className={`p-3 rounded-md ${
             message.type === "success"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
               : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200"
           }`}
         >
-          {message.text} {/* ✅ Texto da mensagem */}
+          {message.text}
         </div>
       )}
 
-      {/* Botão de submit com estado de loading */}
+      {/* Botão de submit */}
       <button
-        type="submit" // ✅ Tipo submit para enviar formulário
-        disabled={isPending} // ✅ Desabilitar durante loading
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded disabled:opacity-50 dark:bg-blue-600 dark:hover:bg-blue-700"
+        type="submit"
+        disabled={isPending}
+        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {/* Texto dinâmico baseado no estado de loading */}
         {isPending ? "Processando..." : "➕ Adicionar"}
       </button>
     </form>
   );
-}
+};
+
+export default TransactionForm;

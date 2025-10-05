@@ -1,24 +1,24 @@
 /* src/styles/App.css */
 /* Reset básico para consistência entre navegadores */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0; /* Remove margens padrão */
+  padding: 0; /* Remove padding padrão */
+  box-sizing: border-box; /* Inclui borda e padding no cálculo de largura/altura */
 }
 
 /* Variáveis CSS personalizadas */
 :root {
-  /* Cores principais - MODO CLARO */
-  --primary: #007bff;
-  --primary-dark: #0056b3;
-  --success: #28a745;
-  --danger: #dc3545;
-  --warning: #ffc107;
-  --info: #17a2b8;
-  --light: #f8f9fa;
-  --dark: #343a40;
+  /* Cores principais */
+  --primary: #007bff; /* Azul primário */
+  --primary-dark: #0056b3; /* Azul primário escuro */
+  --success: #28a745; /* Verde sucesso */
+  --danger: #dc3545; /* Vermelho erro/perigo */
+  --warning: #ffc107; /* Amarelo aviso */
+  --info: #17a2b8; /* Azul informação */
+  --light: #f8f9fa; /* Cinza claro */
+  --dark: #343a40; /* Cinza escuro */
 
-  /* Escala de cinzas - MODO CLARO */
+  /* Escala de cinzas */
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;
   --gray-300: #dee2e6;
@@ -30,25 +30,25 @@
   --gray-900: #212529;
 
   /* Espaçamentos */
-  --spacer-1: 0.25rem;
-  --spacer-2: 0.5rem;
-  --spacer-3: 1rem;
-  --spacer-4: 1.5rem;
-  --spacer-5: 3rem;
+  --spacer-1: 0.25rem; /* 4px */
+  --spacer-2: 0.5rem; /* 8px */
+  --spacer-3: 1rem; /* 16px */
+  --spacer-4: 1.5rem; /* 24px */
+  --spacer-5: 3rem; /* 48px */
 
-  /* Bordas e arredondamentos */
-  --border-radius: 8px;
-  --border-radius-lg: 12px;
-  --border-radius-sm: 4px;
+  /* Bordas */
+  --border-radius: 8px; /* Arredondamento padrão */
+  --border-radius-lg: 12px; /* Arredondamento grande */
+  --border-radius-sm: 4px; /* Arredondamento pequeno */
 
   /* Sombras */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12); /* Sombra pequena */
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra média */
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra grande */
 
   /* Transições */
-  --transition-fast: 0.2s ease-in-out;
-  --transition-normal: 0.3s ease-in-out;
+  --transition-fast: 0.2s ease-in-out; /* Transição rápida */
+  --transition-normal: 0.3s ease-in-out; /* Transição normal */
 }
 
 /* Estilos do corpo da página - MODO CLARO (padrão) */
@@ -63,64 +63,66 @@ body {
     Ubuntu,
     Cantarell,
     sans-serif;
-  background-color: var(--gray-100);
-  color: var(--gray-900);
-  line-height: 1.6;
+  background-color: var(--gray-100); /* Fundo claro */
+  color: var(--gray-900); /* Texto preto */
   transition:
     background-color var(--transition-normal),
     color var(--transition-normal);
+  line-height: 1.6;
   min-height: 100vh;
   padding: 0;
   margin: 0;
 }
 
-/* MODO ESCURO */
+/* Estilos para MODO ESCURO */
 body.dark {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
+  background-color: #1a1a1a; /* Fundo muito escuro */
+  color: #e0e0e0; /* Texto claro */
 }
 
-/* Cards no modo escuro */
 body.dark .card {
-  background-color: #2d2d2d;
-  border-color: #404040;
+  background-color: #2d2d2d; /* Fundo escuro para cards */
+  border-color: #404040; /* Bordas escuras */
 }
 
 body.dark .card:hover {
-  border-color: #555;
+  border-color: #555; /* Bordas mais claras no hover */
 }
 
-/* Inputs e selects no modo escuro */
 body.dark input,
 body.dark select,
 body.dark textarea {
-  background-color: #333;
-  border-color: #555;
-  color: #e0e0e0;
+  background-color: #333; /* Fundo escuro para inputs */
+  border-color: #555; /* Bordas escuras */
+  color: #e0e0e0; /* Texto claro */
 }
 
 body.dark input:focus,
 body.dark select:focus,
 body.dark textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  border-color: var(--primary); /* Borda azul no foco */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra azul no foco */
 }
 
-/* Cabeçalho - CORES CORRIGIDAS */
+/* Cabeçalho - POSICIONAMENTO CORRIGIDO PARA RESPONSIVIDADE */
 header {
-  background: linear-gradient(135deg, var(--primary), #0056b3);
-  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    #0056b3
+  ); /* Gradiente azul */
+  color: white; /* Texto branco */
   padding: var(--spacer-3) var(--spacer-4);
   box-shadow: var(--shadow-md);
-  position: sticky;
+  position: sticky; /* Fixo no topo */
   top: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  z-index: 100; /* Acima de outros elementos */
+  display: flex; /* Layout flexível */
+  justify-content: space-between; /* Espaça itens */
+  align-items: center; /* Alinha verticalmente */
 }
 
-/* Título do cabeçalho - PRETO NO LIGHT, BRANCO NO DARK */
+/* Título do cabeçalho */
 header h1 {
   font-size: 1.8rem;
   font-weight: 700;
@@ -128,67 +130,59 @@ header h1 {
   display: flex;
   align-items: center;
   gap: var(--spacer-2);
-  color: black; /* ✅ PRETO NO MODO CLARO */
 }
 
-/* Título branco no modo escuro */
-body.dark header h1 {
-  color: white; /* ✅ BRANCO NO MODO ESCURO */
-}
-
-/* Botão de toggle de tema */
+/* Botão de toggle de tema - POSICIONADO À DIREITA */
 #toggle-theme {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
+  background: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente branco */
+  border: none; /* Sem borda */
+  color: white; /* Ícone branco */
+  font-size: 1.2rem; /* Tamanho do ícone */
+  width: 40px; /* Largura fixa */
+  height: 40px; /* Altura fixa */
+  border-radius: 50%; /* Forma circular */
+  cursor: pointer; /* Cursor de mão */
+  transition: background-color var(--transition-fast); /* Transição suave */
+  display: flex; /* Layout flexível */
+  align-items: center; /* Alinha verticalmente */
+  justify-content: center; /* Alinha horizontalmente */
+  margin-left: auto; /* ✅ EMPURRA BOTÃO PARA DIREITA */
 }
 
 #toggle-theme:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.3); /* Fundo mais claro no hover */
+  transform: scale(1.1); /* Leve aumento no hover */
 }
 
-/* Navegação - CORES CORRIGIDAS */
+/* Navegação */
 nav {
-  background-color: white;
-  border-bottom: 1px solid var(--gray-300);
+  background-color: white; /* Fundo branco */
+  border-bottom: 1px solid var(--gray-300); /* Borda cinza clara */
   padding: 0 var(--spacer-4);
   box-shadow: var(--shadow-sm);
 }
 
-/* Navegação no modo escuro */
 body.dark nav {
-  background-color: #2d2d2d;
-  border-bottom-color: #404040;
+  background-color: #2d2d2d; /* Fundo escuro */
+  border-bottom-color: #404040; /* Bordas escuras */
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
+  list-style: none; /* Remove marcadores */
+  display: flex; /* Layout horizontal */
   margin: 0;
   padding: 0;
-  gap: var(--spacer-3);
+  gap: var(--spacer-3); /* Espaço entre itens */
 }
 
 nav li {
   margin: 0;
 }
 
-/* Links de navegação - PRETOS NO LIGHT, BRANCOS NO DARK */
 nav a {
-  text-decoration: none;
+  text-decoration: none; /* Remove sublinhado */
   padding: var(--spacer-3) var(--spacer-2);
-  color: black; /* ✅ PRETO NO MODO CLARO */
+  color: var(--gray-600); /* Texto cinza escuro */
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -198,18 +192,13 @@ nav a {
   position: relative;
 }
 
-/* Links brancos no modo escuro */
-body.dark nav a {
-  color: white; /* ✅ BRANCO NO MODO ESCURO */
-}
-
 nav a:hover {
-  color: var(--primary);
-  background-color: rgba(0, 123, 255, 0.1);
+  color: var(--primary); /* Texto azul no hover */
+  background-color: rgba(0, 123, 255, 0.1); /* Fundo azul claro no hover */
 }
 
 nav a.active {
-  color: var(--primary);
+  color: var(--primary); /* Texto azul quando ativo */
   font-weight: 600;
 }
 
@@ -235,428 +224,443 @@ body.dark nav a.active {
 
 /* Conteúdo principal */
 main {
-  flex: 1;
-  padding: var(--spacer-4);
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  flex: 1; /* Ocupa espaço disponível */
+  padding: var(--spacer-4); /* Espaçamento interno */
+  max-width: 1200px; /* Largura máxima */
+  margin: 0 auto; /* Centraliza horizontalmente */
+  width: 100%; /* Largura total */
 }
 
 /* Cards e containers */
 .card {
-  background: white;
-  border: 1px solid var(--gray-300);
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacer-4);
-  margin-bottom: var(--spacer-4);
-  box-shadow: var(--shadow-sm);
+  background: white; /* Fundo branco */
+  border: 1px solid var(--gray-300); /* Borda cinza clara */
+  border-radius: var(--border-radius-lg); /* Bordas arredondadas grandes */
+  padding: var(--spacer-4); /* Espaçamento interno */
+  margin-bottom: var(--spacer-4); /* Espaço abaixo */
+  box-shadow: var(--shadow-sm); /* Sombra leve */
   transition:
     box-shadow var(--transition-fast),
-    transform var(--transition-fast);
+    transform var(--transition-fast); /* Transições suaves */
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md); /* Sombra média no hover */
+  transform: translateY(-2px); /* Leve elevação no hover */
 }
 
 body.dark .card {
-  background: #2d2d2d;
-  border-color: #404040;
+  background: #2d2d2d; /* Fundo escuro */
+  border-color: #404040; /* Bordas escuras */
 }
 
 /* Seção de saldo */
 .saldo-section {
-  text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacer-4);
-  margin-bottom: var(--spacer-4);
-  box-shadow: var(--shadow-lg);
+  text-align: center; /* Texto centralizado */
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  ); /* Gradiente roxo/azul */
+  color: white; /* Texto branco */
+  border-radius: var(--border-radius-lg); /* Bordas arredondadas grandes */
+  padding: var(--spacer-4); /* Espaçamento interno */
+  margin-bottom: var(--spacer-4); /* Espaço abaixo */
+  box-shadow: var(--shadow-lg); /* Sombra grande */
 }
 
 .saldo-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: var(--spacer-2);
-  font-weight: 500;
-  opacity: 0.9;
+  font-size: 1.5rem; /* Tamanho da fonte */
+  margin-bottom: var(--spacer-2); /* Espaço abaixo */
+  font-weight: 500; /* Peso da fonte médio */
+  opacity: 0.9; /* Opacidade para suavizar */
 }
 
 .saldo {
-  font-size: 3rem;
-  font-weight: 700;
-  font-family: "Roboto Mono", monospace;
-  margin: var(--spacer-2) 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 3rem; /* Tamanho grande */
+  font-weight: 700; /* Negrito */
+  font-family: "Roboto Mono", monospace; /* Fonte monospace para números */
+  margin: var(--spacer-2) 0; /* Margem vertical */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
-/* Filtros */
+/* Filtros - RESPONSIVIDADE MELHORADA */
 .filters {
-  display: flex;
-  gap: var(--spacer-3);
-  margin-bottom: var(--spacer-4);
-  flex-wrap: wrap;
-  align-items: center;
+  display: flex; /* Layout flexível */
+  gap: var(--spacer-3); /* Espaço entre elementos */
+  margin-bottom: var(--spacer-4); /* Espaço abaixo */
+  flex-wrap: wrap; /* ✅ Quebra linha em telas pequenas */
+  align-items: center; /* Alinha verticalmente */
 }
 
 .filters > * {
-  flex: 1;
-  min-width: 150px;
+  flex: 1; /* ✅ Ocupa espaço disponível */
+  min-width: 150px; /* ✅ Largura mínima para telas pequenas */
 }
 
 .filters select,
 .filters input {
-  width: 100%;
-  padding: var(--spacer-2) var(--spacer-3);
-  border: 1px solid var(--gray-300);
-  border-radius: var(--border-radius);
-  background-color: white;
-  font-size: 0.9rem;
+  width: 100%; /* Largura total */
+  padding: var(--spacer-2) var(--spacer-3); /* Espaçamento interno */
+  border: 1px solid var(--gray-300); /* Borda cinza clara */
+  border-radius: var(--border-radius); /* Bordas arredondadas */
+  background-color: white; /* Fundo branco */
+  font-size: 0.9rem; /* Tamanho da fonte */
   transition:
     border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast); /* Transições suaves */
 }
 
 .filters select:focus,
 .filters input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none; /* Remove outline padrão */
+  border-color: var(--primary); /* Borda azul no foco */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1); /* Sombra azul no foco */
 }
 
 /* Botões */
 button {
-  padding: var(--spacer-2) var(--spacer-3);
-  border: none;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacer-1);
+  padding: var(--spacer-2) var(--spacer-3); /* Espaçamento interno */
+  border: none; /* Sem borda */
+  border-radius: var(--border-radius); /* Bordas arredondadas */
+  font-weight: 600; /* Negrito */
+  cursor: pointer; /* Cursor de mão */
+  transition: all var(--transition-fast); /* Transição suave */
+  display: inline-flex; /* Layout flexível inline */
+  align-items: center; /* Alinha verticalmente */
+  justify-content: center; /* Alinha horizontalmente */
+  gap: var(--spacer-1); /* Espaço entre ícone e texto */
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--primary); /* Fundo azul */
+  color: white; /* Texto branco */
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-1px);
+  background-color: var(--primary-dark); /* Fundo azul escuro no hover */
+  transform: translateY(-1px); /* Leve elevação no hover */
 }
 
 .btn-success {
-  background-color: var(--success);
-  color: white;
+  background-color: var(--success); /* Fundo verde */
+  color: white; /* Texto branco */
 }
 
 .btn-success:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+  background-color: #218838; /* Fundo verde escuro no hover */
+  transform: translateY(-1px); /* Leve elevação no hover */
 }
 
 .btn-danger {
-  background-color: var(--danger);
-  color: white;
+  background-color: var(--danger); /* Fundo vermelho */
+  color: white; /* Texto branco */
 }
 
 .btn-danger:hover {
-  background-color: #c82333;
-  transform: translateY(-1px);
+  background-color: #c82333; /* Fundo vermelho escuro no hover */
+  transform: translateY(-1px); /* Leve elevação no hover */
 }
 
 .btn-outline {
-  background-color: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
+  background-color: transparent; /* Fundo transparente */
+  border: 1px solid var(--primary); /* Borda azul */
+  color: var(--primary); /* Texto azul */
 }
 
 .btn-outline:hover {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--primary); /* Fundo azul no hover */
+  color: white; /* Texto branco no hover */
 }
 
 /* Formulários */
 form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacer-3);
+  display: flex; /* Layout flexível */
+  flex-direction: column; /* Direção vertical */
+  gap: var(--spacer-3); /* Espaço entre elementos */
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacer-1);
+  display: flex; /* Layout flexível */
+  flex-direction: column; /* Direção vertical */
+  gap: var(--spacer-1); /* Espaço entre elementos */
 }
 
 .form-group label {
-  font-weight: 500;
-  color: var(--gray-700);
+  font-weight: 500; /* Peso da fonte médio */
+  color: var(--gray-700); /* Texto cinza escuro */
 }
 
 body.dark .form-group label {
-  color: var(--gray-300);
+  color: var(--gray-300); /* Texto cinza claro no modo escuro */
 }
 
 input,
 select,
 textarea {
-  padding: var(--spacer-2) var(--spacer-3);
-  border: 1px solid var(--gray-300);
-  border-radius: var(--border-radius);
-  background-color: white;
-  font-size: 1rem;
+  padding: var(--spacer-2) var(--spacer-3); /* Espaçamento interno */
+  border: 1px solid var(--gray-300); /* Borda cinza clara */
+  border-radius: var(--border-radius); /* Bordas arredondadas */
+  background-color: white; /* Fundo branco */
+  font-size: 1rem; /* Tamanho da fonte */
   transition:
     border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast); /* Transições suaves */
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none; /* Remove outline padrão */
+  border-color: var(--primary); /* Borda azul no foco */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1); /* Sombra azul no foco */
 }
 
 /* Lista de transações */
 .transaction-list {
-  list-style: none;
+  list-style: none; /* Remove marcadores */
 }
 
 .transaction-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacer-3);
-  border-radius: var(--border-radius);
-  background-color: white;
-  border-left: 4px solid var(--gray-300);
-  margin-bottom: var(--spacer-2);
-  box-shadow: var(--shadow-sm);
+  display: flex; /* Layout flexível */
+  justify-content: space-between; /* Espaça itens */
+  align-items: center; /* Alinha verticalmente */
+  padding: var(--spacer-3); /* Espaçamento interno */
+  border-radius: var(--border-radius); /* Bordas arredondadas */
+  background-color: white; /* Fundo branco */
+  border-left: 4px solid var(--gray-300); /* Borda esquerda cinza */
+  margin-bottom: var(--spacer-2); /* Espaço abaixo */
+  box-shadow: var(--shadow-sm); /* Sombra leve */
   transition:
     transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast); /* Transições suaves */
 }
 
 .transaction-item:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-1px); /* Leve elevação no hover */
+  box-shadow: var(--shadow-md); /* Sombra média no hover */
 }
 
 body.dark .transaction-item {
-  background-color: #252525;
-  border-color: #404040;
+  background-color: #252525; /* Fundo escuro */
+  border-color: #404040; /* Bordas escuras */
 }
 
 .transaction-item.receita {
-  border-left-color: var(--success);
+  border-left-color: var(--success); /* Borda verde para receitas */
 }
 
 .transaction-item.despesa {
-  border-left-color: var(--danger);
+  border-left-color: var(--danger); /* Borda vermelha para despesas */
 }
 
 .transaction-info {
-  flex: 1;
+  flex: 1; /* Ocupa espaço disponível */
 }
 
 .transaction-info strong {
-  display: block;
-  margin-bottom: var(--spacer-1);
-  font-size: 1.1rem;
-  color: var(--gray-800);
+  display: block; /* Bloco para margem */
+  margin-bottom: var(--spacer-1); /* Espaço abaixo */
+  font-size: 1.1rem; /* Tamanho maior */
+  color: var(--gray-800); /* Texto quase preto */
 }
 
 body.dark .transaction-info strong {
-  color: #ffffff;
+  color: #ffffff; /* Texto branco no modo escuro */
 }
 
 .transaction-meta {
-  display: flex;
-  gap: var(--spacer-3);
-  align-items: center;
-  font-size: 0.85rem;
-  color: var(--gray-600);
+  display: flex; /* Layout flexível */
+  gap: var(--spacer-3); /* Espaço entre elementos */
+  align-items: center; /* Alinha verticalmente */
+  font-size: 0.85rem; /* Tamanho menor */
+  color: var(--gray-600); /* Texto cinza escuro */
 }
 
 body.dark .transaction-meta {
-  color: var(--gray-400);
+  color: var(--gray-400); /* Texto cinza claro no modo escuro */
 }
 
 .transaction-meta div {
-  color: var(--primary-dark);
+  color: var(--primary-dark); /* Texto azul escuro */
 }
 
 body.dark .transaction-meta div {
-  color: #66b3ff;
+  color: #66b3ff; /* Azul claro no modo escuro */
 }
 
 .category-tag {
-  display: inline-block;
-  padding: var(--spacer-1) var(--spacer-2);
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  background-color: var(--gray-200);
-  color: var(--gray-700);
+  display: inline-block; /* Inline-block para dimensionamento */
+  padding: var(--spacer-1) var(--spacer-2); /* Espaçamento interno */
+  border-radius: 20px; /* Bordas arredondadas */
+  font-size: 0.75rem; /* Tamanho menor */
+  font-weight: bold; /* Negrito */
+  background-color: var(--gray-200); /* Fundo cinza claro */
+  color: var(--gray-700); /* Texto cinza escuro */
 }
 
 body.dark .category-tag {
-  background-color: #404040;
-  color: var(--gray-300);
+  background-color: #404040; /* Fundo escuro */
+  color: var(--gray-300); /* Texto cinza claro */
 }
 
 .transaction-amount {
-  text-align: right;
-  font-weight: bold;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: var(--spacer-2);
+  text-align: right; /* Texto alinhado à direita */
+  font-weight: bold; /* Negrito */
+  font-size: 1.1rem; /* Tamanho maior */
+  display: flex; /* Layout flexível */
+  align-items: center; /* Alinha verticalmente */
+  gap: var(--spacer-2); /* Espaço entre elementos */
 }
 
 .transaction-amount.positive {
-  color: var(--success);
+  color: var(--success); /* Verde para valores positivos */
 }
 
 .transaction-amount.negative {
-  color: var(--danger);
+  color: var(--danger); /* Vermelho para valores negativos */
 }
 
 .delete-btn {
-  background-color: var(--danger);
-  color: white;
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color var(--transition-fast);
-  margin-left: var(--spacer-2);
+  background-color: var(--danger); /* Fundo vermelho */
+  color: white; /* Texto branco */
+  border: none; /* Sem borda */
+  width: 36px; /* Largura fixa */
+  height: 36px; /* Altura fixa */
+  border-radius: 50%; /* Forma circular */
+  cursor: pointer; /* Cursor de mão */
+  display: flex; /* Layout flexível */
+  align-items: center; /* Alinha verticalmente */
+  justify-content: center; /* Alinha horizontalmente */
+  transition: background-color var(--transition-fast); /* Transição suave */
+  margin-left: var(--spacer-2); /* Margem esquerda */
 }
 
 .delete-btn:hover {
-  background-color: #c82333;
-  transform: scale(1.1);
+  background-color: #c82333; /* Fundo vermelho escuro no hover */
+  transform: scale(1.1); /* Leve aumento no hover */
 }
 
 /* Cards de relatório */
 .report-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacer-3);
-  margin-bottom: var(--spacer-4);
+  display: grid; /* Layout grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* ✅ Grid responsivo */
+  gap: var(--spacer-3); /* Espaço entre cards */
+  margin-bottom: var(--spacer-4); /* Espaço abaixo */
 }
 
 .report-card {
-  background: white;
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacer-4);
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast);
+  background: white; /* Fundo branco */
+  border-radius: var(--border-radius-lg); /* Bordas arredondadas grandes */
+  padding: var(--spacer-4); /* Espaçamento interno */
+  text-align: center; /* Texto centralizado */
+  box-shadow: var(--shadow-sm); /* Sombra leve */
+  transition: transform var(--transition-fast); /* Transição suave */
 }
 
 .report-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px); /* Leve elevação no hover */
+}
+
+body.dark .report-card {
+  background: #252525; /* Fundo escuro */
+  border-color: #404040; /* Bordas escuras */
 }
 
 .report-card.receita {
-  border-top: 4px solid var(--success);
+  border-top: 4px solid var(--success); /* Borda superior verde */
 }
 
 .report-card.despesa {
-  border-top: 4px solid var(--danger);
+  border-top: 4px solid var(--danger); /* Borda superior vermelha */
 }
 
 .report-card.saldo {
-  border-top: 4px solid var(--primary);
+  border-top: 4px solid var(--primary); /* Borda superior azul */
 }
 
 .report-card h3 {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: var(--spacer-2);
-  color: var(--gray-700);
+  font-size: 1.1rem; /* Tamanho da fonte */
+  font-weight: 500; /* Peso da fonte médio */
+  margin-bottom: var(--spacer-2); /* Espaço abaixo */
+  color: var(--gray-700); /* Texto cinza escuro */
 }
 
 body.dark .report-card h3 {
-  color: var(--gray-300);
+  color: var(--gray-300); /* Texto cinza claro no modo escuro */
 }
 
 .report-card .value {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: "Roboto Mono", monospace;
+  font-size: 2rem; /* Tamanho grande */
+  font-weight: 700; /* Negrito */
+  font-family: "Roboto Mono", monospace; /* Fonte monospace para números */
 }
 
 .report-card .value.positive {
-  color: var(--success);
+  color: var(--success); /* Verde para valores positivos */
 }
 
 .report-card .value.negative {
-  color: var(--danger);
+  color: var(--danger); /* Vermelho para valores negativos */
 }
 
 /* Categoria cards */
 .category-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--spacer-3);
+  display: grid; /* Layout grid */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* ✅ Grid responsivo */
+  gap: var(--spacer-3); /* Espaço entre cards */
 }
 
 .category-card {
-  background: white;
-  border-radius: var(--border-radius);
-  padding: var(--spacer-3);
-  box-shadow: var(--shadow-sm);
-  border-left: 4px solid var(--gray-300);
+  background: white; /* Fundo branco */
+  border-radius: var(--border-radius); /* Bordas arredondadas */
+  padding: var(--spacer-3); /* Espaçamento interno */
+  box-shadow: var(--shadow-sm); /* Sombra leve */
+  border-left: 4px solid var(--gray-300); /* Borda esquerda cinza */
 }
 
 body.dark .category-card {
-  background: #252525;
-  border-color: #404040;
+  background: #252525; /* Fundo escuro */
+  border-color: #404040; /* Bordas escuras */
 }
 
 .category-card.positive {
-  border-left-color: var(--success);
+  border-left-color: var(--success); /* Borda verde para positivo */
 }
 
 .category-card.negative {
-  border-left-color: var(--danger);
+  border-left-color: var(--danger); /* Borda vermelha para negativo */
 }
 
 .category-card h4 {
-  font-size: 1rem;
-  margin-bottom: var(--spacer-2);
-  font-weight: 600;
-  color: var(--gray-800);
+  font-size: 1rem; /* Tamanho da fonte */
+  margin-bottom: var(--spacer-2); /* Espaço abaixo */
+  font-weight: 600; /* Negrito */
+  color: var(--gray-800); /* Texto quase preto */
 }
 
 body.dark .category-card h4 {
-  color: var(--gray-200);
+  color: var(--gray-200); /* Texto cinza claro no modo escuro */
 }
 
 .category-card .amount {
-  font-size: 1.2rem;
-  font-weight: 700;
-  font-family: "Roboto Mono", monospace;
+  font-size: 1.2rem; /* Tamanho maior */
+  font-weight: 700; /* Negrito */
+  font-family: "Roboto Mono", monospace; /* Fonte monospace para números */
 }
 
 .category-card .amount.positive {
-  color: var(--success);
+  color: var(--success); /* Verde para valores positivos */
 }
 
 .category-card .amount.negative {
-  color: var(--danger);
+  color: var(--danger); /* Vermelho para valores negativos */
 }
 
 /* Títulos */
@@ -666,204 +670,221 @@ h3,
 h4,
 h5,
 h6 {
-  margin-bottom: var(--spacer-3);
-  font-weight: 600;
-  line-height: 1.3;
+  margin-bottom: var(--spacer-3); /* Espaço abaixo */
+  font-weight: 600; /* Negrito */
+  line-height: 1.3; /* Altura de linha */
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2rem; /* Tamanho maior */
 }
 
 h2 {
-  font-size: 1.5rem;
-  color: var(--gray-800);
+  font-size: 1.5rem; /* Tamanho médio */
+  color: var(--gray-800); /* Texto quase preto */
 }
 
 body.dark h2 {
-  color: var(--gray-200);
+  color: var(--gray-200); /* Texto cinza claro no modo escuro */
 }
 
 /* Utilitários */
 .text-center {
-  text-align: center;
+  text-align: center; /* Texto centralizado */
 }
 
 .text-right {
-  text-align: right;
+  text-align: right; /* Texto alinhado à direita */
 }
 
 .mb-4 {
-  margin-bottom: var(--spacer-4);
+  margin-bottom: var(--spacer-4); /* Margem abaixo */
 }
 
 .mt-4 {
-  margin-top: var(--spacer-4);
+  margin-top: var(--spacer-4); /* Margem acima */
 }
 
 .d-flex {
-  display: flex;
+  display: flex; /* Layout flexível */
 }
 
 .justify-content-between {
-  justify-content: space-between;
+  justify-content: space-between; /* Espaça itens */
 }
 
 .align-items-center {
-  align-items: center;
+  align-items: center; /* Alinha verticalmente */
 }
 
 /* RESPONSIVIDADE COMPLETA */
 @media (max-width: 768px) {
   :root {
-    --spacer-3: 0.75rem;
-    --spacer-4: 1.25rem;
+    --spacer-3: 0.75rem; /* Espaçamento menor em tablets */
+    --spacer-4: 1.25rem; /* Espaçamento menor em tablets */
+    --spacer-5: 2rem; /* Espaçamento menor em tablets */
   }
 
+  /* Cabeçalho responsivo */
   header {
-    padding: var(--spacer-3);
+    padding: var(--spacer-3); /* Menos padding em mobile */
     flex-direction: row; /* Mantém horizontal */
-    gap: var(--spacer-3);
-    text-align: left;
+    gap: var(--spacer-2); /* Menos espaço entre itens */
+    text-align: left; /* Texto alinhado à esquerda */
   }
 
   header h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0;
+    font-size: 1.5rem; /* Fonte menor em mobile */
+    margin-bottom: 0; /* Remove margem em mobile */
   }
 
+  /* Botão de tema responsivo */
   #toggle-theme {
-    margin-left: auto; /* Empurra para a direita */
-    margin-top: 0;
+    margin-left: auto; /* ✅ Empurra para a direita */
+    margin-top: 0; /* Remove margem superior */
+    width: 36px; /* Menor largura */
+    height: 36px; /* Menor altura */
+    font-size: 1rem; /* Fonte menor */
   }
 
+  /* Navegação responsiva */
   nav {
-    padding: 0 var(--spacer-3);
+    padding: 0 var(--spacer-3); /* Menos padding lateral */
   }
 
   nav ul {
-    flex-wrap: wrap;
-    gap: 0;
+    flex-wrap: wrap; /* ✅ Quebra linha em mobile */
+    gap: 0; /* Remove espaço entre itens */
   }
 
   nav a {
-    padding: var(--spacer-2) var(--spacer-1);
-    font-size: 0.9rem;
+    padding: var(--spacer-2) var(--spacer-1); /* Menos padding */
+    font-size: 0.9rem; /* Fonte menor */
   }
 
+  /* Conteúdo principal responsivo */
   main {
-    padding: var(--spacer-3);
+    padding: var(--spacer-3); /* Menos padding em mobile */
   }
 
+  /* Filtros responsivos */
   .filters {
-    flex-direction: column;
+    flex-direction: column; /* ✅ Layout vertical em mobile */
   }
 
   .filters > * {
-    min-width: 100%;
+    min-width: 100%; /* ✅ Largura total em mobile */
   }
 
+  /* Transações responsivas */
   .transaction-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacer-2);
+    flex-direction: column; /* ✅ Layout vertical em mobile */
+    align-items: flex-start; /* Alinhar à esquerda */
+    gap: var(--spacer-2); /* Menos espaço entre itens */
   }
 
   .transaction-meta {
-    width: 100%;
-    justify-content: space-between;
+    width: 100%; /* Largura total */
+    justify-content: space-between; /* Espaça itens */
   }
 
   .transaction-amount {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%; /* Largura total */
+    display: flex; /* Layout flexível */
+    justify-content: space-between; /* Espaça itens */
+    align-items: center; /* Alinha verticalmente */
   }
 
+  /* Grids responsivos */
   .report-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* ✅ Uma coluna em mobile */
+  }
+
+  .saldo-section {
+    padding: var(--spacer-3); /* Menos padding em mobile */
   }
 
   .saldo {
-    font-size: 2rem;
+    font-size: 2rem; /* Fonte menor em mobile */
   }
 
   .report-card .value {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* Fonte menor em mobile */
   }
 
   .category-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* ✅ Uma coluna em mobile */
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --spacer-3: 0.5rem;
-    --spacer-4: 1rem;
+    --spacer-3: 0.5rem; /* Espaçamento ainda menor */
+    --spacer-4: 1rem; /* Espaçamento ainda menor */
+    --spacer-5: 1.5rem; /* Espaçamento ainda menor */
   }
 
+  /* Ajustes finos para telas muito pequenas */
   header h1 {
-    font-size: 1.3rem;
+    font-size: 1.3rem; /* Fonte ainda menor */
   }
 
   .saldo-section {
-    padding: var(--spacer-3);
+    padding: var(--spacer-3); /* Menos padding */
   }
 
   .saldo {
-    font-size: 1.8rem;
+    font-size: 1.8rem; /* Fonte ainda menor */
   }
 
   .category-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Uma coluna */
   }
 }
 
 /* Animações */
 @keyframes fadeIn {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0; /* Inicia invisível */
+    transform: translateY(10px); /* Inicia deslocado para baixo */
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1; /* Termina visível */
+    transform: translateY(0); /* Termina na posição original */
   }
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out; /* Animação suave */
 }
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 8px; /* Largura da scrollbar */
+  height: 8px; /* Altura da scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gray-100);
+  background: var(--gray-100); /* Fundo da track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-400);
-  border-radius: 4px;
+  background: var(--gray-400); /* Cor do thumb */
+  border-radius: 4px; /* Bordas arredondadas */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-500);
+  background: var(--gray-500); /* Cor mais escura no hover */
 }
 
 body.dark ::-webkit-scrollbar-track {
-  background: #2d2d2d;
+  background: #2d2d2d; /* Fundo escuro da track */
 }
 
 body.dark ::-webkit-scrollbar-thumb {
-  background: #555;
+  background: #555; /* Cor escura do thumb */
 }
 
 body.dark ::-webkit-scrollbar-thumb:hover {
-  background: #666;
+  background: #666; /* Cor mais escura no hover */
 }
