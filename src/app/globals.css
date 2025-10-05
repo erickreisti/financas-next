@@ -1,175 +1,150 @@
 /* src/app/globals.css */
-/* Diretivas do Tailwind CSS - NÃO REMOVER */
-/* Estilos base (normalize.css) */
+/* Diretivas do Tailwind CSS */
 @tailwind base;
-/* Componentes do Tailwind */
 @tailwind components;
-/* Classes utilitárias */
 @tailwind utilities;
 
-/* Variáveis CSS personalizadas para cores e espaçamentos */
+/* Variáveis CSS para o sistema de design */
 :root {
-  /* Cores principais do tema CLARO */
-  --foreground-rgb: 0, 0, 0; /* Texto padrão (preto) */
-  --background-start-rgb: 214, 219, 220; /* Fundo inicial (gradiente) */
-  --background-end-rgb: 255, 255, 255; /* Fundo final (gradiente) */
+  /* Cores do tema claro */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.5rem;
 
-  /* Cores do tema ESCURO */
-  --dark-foreground-rgb: 255, 255, 255; /* Texto claro no modo escuro */
-  --dark-background-start-rgb: 0, 0, 0; /* Fundo escuro inicial */
-  --dark-background-end-rgb: 0, 0, 0; /* Fundo escuro final */
-
-  /* Cores de marca */
-  --primary: #007bff; /* Azul primário */
-  --primary-dark: #0056b3; /* Azul primário escuro */
-  --success: #28a745; /* Verde sucesso */
-  --danger: #dc3545; /* Vermelho erro/perigo */
-  --warning: #ffc107; /* Amarelo aviso */
-  --info: #17a2b8; /* Azul informação */
-  --light: #f8f9fa; /* Cinza claro */
-  --dark: #343a40; /* Cinza escuro */
-
-  /* Escala de cinzas */
-  --gray-100: #f8f9fa;
-  --gray-200: #e9ecef;
-  --gray-300: #dee2e6;
-  --gray-400: #ced4da;
-  --gray-500: #adb5bd;
-  --gray-600: #6c757d;
-  --gray-700: #495057;
-  --gray-800: #343a40;
-  --gray-900: #212529;
-
-  /* Espaçamentos */
-  --spacer-1: 0.25rem; /* 4px */
-  --spacer-2: 0.5rem; /* 8px */
-  --spacer-3: 1rem; /* 16px */
-  --spacer-4: 1.5rem; /* 24px */
-  --spacer-5: 3rem; /* 48px */
-
-  /* Bordas */
-  --border-radius: 8px; /* Arredondamento padrão */
-  --border-radius-lg: 12px; /* Arredondamento grande */
-  --border-radius-sm: 4px; /* Arredondamento pequeno */
-
-  /* Sombras */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12); /* Sombra pequena */
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra média */
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra grande */
-
-  /* Transições */
-  --transition-fast: 0.2s ease-in-out; /* Transição rápida */
-  --transition-normal: 0.3s ease-in-out; /* Transição normal */
+  /* Cores semânticas */
+  --success: 142 76% 36%;
+  --warning: 38 92% 50%;
+  --info: 199 89% 48%;
 }
 
-/* Variáveis para modo escuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: var(--dark-foreground-rgb);
-    --background-start-rgb: var(--dark-background-start-rgb);
-    --background-end-rgb: var(--dark-background-end-rgb);
-  }
+/* Tema escuro */
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
 }
 
-/* Estilos do corpo da página - MODO CLARO (padrão) */
+/* Reset e estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family:
     "Inter",
+    system-ui,
     -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
     sans-serif;
-  color: rgb(var(--foreground-rgb)); /* Texto preto */
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  transition:
-    background-color var(--transition-normal),
-    color var(--transition-normal);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   line-height: 1.6;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
-}
-
-/* Estilos para MODO ESCURO */
-body.dark {
-  background-color: #1a1a1a; /* Fundo muito escuro */
-  color: #e0e0e0; /* Texto claro */
-}
-
-body.dark .card {
-  background-color: #2d2d2d; /* Fundo escuro para cards */
-  border-color: #404040; /* Bordas escuras */
-}
-
-body.dark .card:hover {
-  border-color: #555; /* Bordas mais claras no hover */
-}
-
-body.dark input,
-body.dark select,
-body.dark textarea {
-  background-color: #333; /* Fundo escuro para inputs */
-  border-color: #555; /* Bordas escuras */
-  color: #e0e0e0; /* Texto claro */
-}
-
-body.dark input:focus,
-body.dark select:focus,
-body.dark textarea:focus {
-  border-color: var(--primary); /* Borda azul no foco */
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra azul no foco */
-}
-
-/* Layout principal */
-.App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Classe utilitária para suavizar fontes */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gray-100);
+  background: hsl(var(--secondary));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-400);
-  border-radius: 4px;
+  background: hsl(var(--muted-foreground));
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-500);
+  background: hsl(var(--foreground));
 }
 
-body.dark ::-webkit-scrollbar-track {
-  background: #2d2d2d;
+/* Seleção de texto */
+::selection {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
-body.dark ::-webkit-scrollbar-thumb {
-  background: #555;
+/* Foco visível para acessibilidade */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
 }
 
-body.dark ::-webkit-scrollbar-thumb:hover {
-  background: #666;
+/* Utilitários do Tailwind customizados */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-in {
+    animation: enter 0.2s ease-out;
+  }
+
+  .animate-out {
+    animation: exit 0.15s ease-in;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }

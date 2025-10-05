@@ -1,72 +1,83 @@
-// src/contexts/ThemeContext.tsx
-// ✅ DIRETIVA USE CLIENT - OBRIGATÓRIO para hooks no App Router
+// ALTERNATIVA: src/contexts/ThemeContext.tsx - VERSÃO MAIS ROBUSTA
 "use client";
 
-// Importa React e hooks necessários para criar contexto de tema
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-// ✅ INTERFACE PARA DEFINIR O QUE O CONTEXTO DE TEMA VAI FORNECER
 interface ThemeContextType {
-  darkMode: boolean; // Estado atual do modo escuro
-  toggleDarkMode: () => void; // Função para alternar modo escuro
+  isDark: boolean;
+  toggleTheme: () => void;
 }
 
-// ✅ CRIA CONTEXTO DE TEMA COM VALOR INICIAL UNDEFINED
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  isDark: false,
+  toggleTheme: () => {},
+});
 
-// ✅ COMPONENTE PROVIDER - FORNECE DADOS DE TEMA PARA ÁRVORE DE COMPONENTES
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children, // Componentes filhos que vão usar o tema
+  children,
 }) => {
-  // ✅ ESTADO LOCAL PARA MODO ESCURO COM TIPAGEM EXPLÍCITA
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [isDark, setIsDark] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
-  // ✅ useEffect: CARREGA PREFERÊNCIA DO USUÁRIO NA MONTAGEM
   useEffect(() => {
-    const savedDarkMode = localStorage.getItem("darkMode");
-    if (savedDarkMode === "true") {
-      setDarkMode(true);
-    }
-  }, []); // Executa só uma vez na montagem
+    setMounted(true);
 
-  // ✅ useEffect: APLICA TEMA AO BODY E SALVA PREFERÊNCIA QUANDO darkMode MUDA
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
-    localStorage.setItem("darkMode", String(darkMode));
-  }, [darkMode]); // Executa sempre que darkMode mudar
+    try {
+      // Verificar preferência salva
+      const savedTheme = localStorage.getItem("theme");
 
-  // ✅ FUNÇÃO PARA ALTERNAR MODO CLARO/ESCURO
-  const toggleDarkMode = (): void => {
-    setDarkMode((prevDarkMode) => !prevDarkMode);
+      if (savedTheme) {
+        const isDarkMode = savedTheme === "dark";
+        setIsDark(isDarkMode);
+        if (isDarkMode) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      } else {
+        // Verificar preferência do sistema
+        const systemPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        if (systemPrefersDark) {
+          setIsDark(true);
+          document.documentElement.classList.add("dark");
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao carregar tema:", error);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    try {
+      const newTheme = !isDark;
+      setIsDark(newTheme);
+
+      if (newTheme) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+    } catch (error) {
+      console.error("Erro ao alternar tema:", error);
+    }
   };
 
-  // ✅ VALOR DO CONTEXTO DE TEMA COM TODAS FUNÇÕES E DADOS
-  const contextValue: ThemeContextType = {
-    darkMode, // Estado atual do modo escuro
-    toggleDarkMode, // Função para alternar modo escuro
-  };
+  // Durante SSR, renderizar sem tema para evitar hidratação inconsistente
+  if (!mounted) {
+    return <>{children}</>;
+  }
 
-  // ✅ RETORNA JSX DO PROVIDER DE TEMA
   return (
-    <ThemeContext.Provider value={contextValue}>
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-// ✅ HOOK CUSTOMIZADO PARA USAR O CONTEXTO DE TEMA
 export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
-
-  // ✅ VERIFICA SE HOOK ESTÁ SENDO USADO DENTRO DE UM PROVIDER
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-
-  // ✅ RETORNA O CONTEXTO SE ESTIVER TUDO CERTO
-  return context;
+  return useContext(ThemeContext);
 };
