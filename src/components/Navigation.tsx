@@ -41,6 +41,11 @@ export default function Navigation() {
           {/* Seção esquerda da navegação */}
 
           <div className="flex">
+            <div className="flex-shrink-0 flex items-center">
+              {/* Logo da aplicação */}
+
+              <span className="font-bold text-xl">💰</span>
+            </div>
             {/* Menu de navegação em desktop */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               {/* Mapeia itens de navegação para elementos JSX */}

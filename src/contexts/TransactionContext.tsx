@@ -9,10 +9,6 @@
 // useEffect: hook para efeitos colaterais (carregar/salvar dados)
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-// Importa adaptador Prisma para conectar autenticação ao banco de dados
-// PrismaAdapter: conecta NextAuth.js ao Prisma Client
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-
 // Importa cliente Prisma para operações de banco de dados
 // prisma: instância do Prisma Client para interagir com o banco
 import { prisma } from "@/lib/prisma";

@@ -111,7 +111,7 @@ header {
     var(--primary),
     #0056b3
   ); /* Gradiente azul */
-  color: white; /* Texto branco */
+  color: var(--gray-900); /* Texto branco */
   padding: var(--spacer-3) var(--spacer-4);
   box-shadow: var(--shadow-md);
   position: sticky; /* Fixo no topo */
@@ -130,6 +130,10 @@ header h1 {
   display: flex;
   align-items: center;
   gap: var(--spacer-2);
+}
+
+body.dark header h1 {
+  color: var(--gray-100);
 }
 
 /* Botão de toggle de tema - POSICIONADO À DIREITA */
