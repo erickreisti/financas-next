@@ -6,7 +6,7 @@
 import React from "react";
 
 // Interface para definir o formato das props recebidas
-// ✅ TIPAGEM EXPLÍCITA PARA SEGURANÇA E AUTO-COMPLETE
+// TIPAGEM EXPLÍCITA PARA SEGURANÇA E AUTO-COMPLETE
 interface FilterBarProps {
   filterType: string; // Filtro de tipo atual (receita/despesa/todas)
   filterCategory: string; // Filtro de categoria atual (salario/alimentacao/etc.)
@@ -16,7 +16,7 @@ interface FilterBarProps {
 }
 
 // Componente FilterBar: barra de filtros e ordenação
-// ✅ CLIENT COMPONENT por causa dos hooks (use client acima)
+// CLIENT COMPONENT por causa dos hooks (use client acima)
 // Recebe props tipadas via FilterBarProps
 const FilterBar = ({
   filterType, // Filtro de tipo atual
@@ -26,10 +26,9 @@ const FilterBar = ({
   isSorted, // Estado de ordenação
 }: FilterBarProps) => {
   // Retorna JSX do componente
-  // ✅ JSX COM PROPS CONTROLADAS E EVENT HANDLERS
+  // JSX COM PROPS CONTROLADAS E EVENT HANDLERS
   return (
     // Div com classe CSS 'filters' para estilização
-    // ✅ CONTAINER FLEXÍVEL COM GAP E MARGEM ABAIXO
     <div className="filters">
       {/* Select para filtrar por tipo de transação */}
 
@@ -78,5 +77,5 @@ const FilterBar = ({
 };
 
 // Exporta o componente para ser usado em outros arquivos
-// ✅ EXPORTAÇÃO PADRÃO PARA REUTILIZAÇÃO
+// EXPORTAÇÃO PADRÃO PARA REUTILIZAÇÃO
 export default FilterBar;

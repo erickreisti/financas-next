@@ -12,71 +12,65 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 // Componente de formulário de login
-// ✅ CLIENT COMPONENT por causa dos hooks (use client acima)
+// CLIENT COMPONENT por causa dos hooks (use client acima)
 export function LoginForm() {
   // Estados locais para gerenciar o formulário de login
-  // ✅ useState COM TIPAGEM EXPLÍCITA
+  // useState COM TIPAGEM EXPLÍCITA
   const [email, setEmail] = useState<string>(""); // Estado para email
   const [password, setPassword] = useState<string>(""); // Estado para senha
   const [isLoading, setIsLoading] = useState<boolean>(false); // Estado para loading
   const [error, setError] = useState<string>(""); // Estado para erros
 
   // Hook de autenticação personalizado
-  // ✅ useAuth PARA ACESSAR FUNÇÕES DE AUTENTICAÇÃO
+  // useAuth PARA ACESSAR FUNÇÕES DE AUTENTICAÇÃO
   const { login } = useAuth();
 
   // Função assíncrona para lidar com submit do formulário
-  // ✅ FUNÇÃO ASSÍNCRONA PARA OPERAÇÕES DE BANCO DE DADOS
+  // FUNÇÃO ASSÍNCRONA PARA OPERAÇÕES DE BANCO DE DADOS
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     // Previne comportamento padrão (recarregar página)
-    // ✅ PREVENT DEFAULT PARA EVITAR RELOAD
+    // PREVENT DEFAULT PARA EVITAR RELOAD
     e.preventDefault();
 
     // Limpar erro anterior antes de tentar novo login
-    // ✅ LIMPEZA DE ESTADO ANTERIOR
+    // LIMPEZA DE ESTADO ANTERIOR
     setError("");
     setIsLoading(true); // Iniciar estado de loading
 
     try {
       // Tentar login com credenciais fornecidas
-      // ✅ CHAMADA ASSÍNCRONA PARA AUTENTICAÇÃO
+      // CHAMADA ASSÍNCRONA PARA AUTENTICAÇÃO
       const result = await login(email, password);
 
       // Se login falhou, mostrar erro amigável
-      // ✅ TRATAMENTO DE ERRO DE AUTENTICAÇÃO
+      // TRATAMENTO DE ERRO DE AUTENTICAÇÃO
       if (!result.success) {
         setError(result.error || "Erro ao fazer login");
       }
     } catch (err) {
       // Tratar erros inesperados
-      // ✅ TRATAMENTO DE ERROS INESPERADOS
+      // TRATAMENTO DE ERROS INESPERADOS
       setError("Erro inesperado. Tente novamente.");
     } finally {
       // Finalizar estado de loading independentemente do resultado
-      // ✅ FINALIZAÇÃO OTIMISTA DE ESTADO
+      // FINALIZAÇÃO OTIMISTA DE ESTADO
       setIsLoading(false);
     }
   };
 
   // Retorna JSX do componente de formulário
-  // ✅ JSX COM ESTADOS CONTROLADOS E EVENT HANDLERS
   return (
     // Div container com classes Tailwind para layout do formulário
-    // ✅ CONTAINER CENTRALIZADO COM SOMBRA E ARREDONDAMENTO
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       {/* Título do formulário de login */}
-      // ✅ TÍTULO CENTRALIZADO COM FONT-BOLD
       <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
       {/* Formulário de login com onSubmit chamando handleSubmit */}
-      // ✅ FORMULÁRIO COM SUBMIT CONTROLADO
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Campo de email */}
-        // ✅ GRUPO DE FORMULÁRIO COM LABEL E INPUT
         <div>
           {/* Label para campo de email */}
-          // ✅ LABEL COM FONT-MEDIUM E MARGEM ABAIXO
           <label
             htmlFor="email"
             className="block text-sm font-medium text-gray-700 mb-1"
@@ -84,7 +78,6 @@ export function LoginForm() {
             Email
           </label>
           {/* Input para email controlado pelo estado */}
-          // ✅ INPUT CONTROLADO COM VALUE E ONCHANGE
           <input
             id="email"
             type="email"
@@ -96,10 +89,8 @@ export function LoginForm() {
           />
         </div>
         {/* Campo de senha */}
-        // ✅ GRUPO DE FORMULÁRIO PARA SENHA
         <div>
           {/* Label para campo de senha */}
-          // ✅ LABEL COM FONT-MEDIUM E MARGEM ABAIXO
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700 mb-1"
@@ -107,7 +98,6 @@ export function LoginForm() {
             Senha
           </label>
           {/* Input para senha controlado pelo estado */}
-          // ✅ INPUT PASSWORD CONTROLADO COM VALUE E ONCHANGE
           <input
             id="password"
             type="password"
@@ -119,28 +109,23 @@ export function LoginForm() {
           />
         </div>
         {/* Mensagem de erro se existir */}
-        // ✅ CONDICIONAL RENDERING PARA MENSAGENS DE ERRO
         {error && (
           // ✅ MENSAGEM DE ERRO COM CORES VERMELHAS
           <div className="text-red-500 text-sm">{error}</div>
         )}
         {/* Botão de submit com estado de loading */}
-        // ✅ BOTÃO COM DISABLED E ESTILOS DINÂMICOS
         <button
           type="submit"
           disabled={isLoading}
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {/* Texto dinâmico baseado no estado de loading */}
-          // ✅ TEXTO DINÂMICO PARA FEEDBACK VISUAL
           {isLoading ? "Entrando..." : "Entrar"}
         </button>
       </form>
       {/* Links para login social */}
-      // ✅ SEÇÃO DE LOGIN SOCIAL COM DIVISOR
       <div className="mt-6">
         {/* Divisor com texto "Ou continue com" */}
-        // ✅ DIVISOR VISUAL COM TEXTO CENTRALIZADO
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
@@ -150,10 +135,8 @@ export function LoginForm() {
           </div>
         </div>
         {/* Grid com botões de login social */}
-        // ✅ GRID COM 2 COLUNAS PARA BOTÕES SOCIAIS
         <div className="mt-6 grid grid-cols-2 gap-3">
           {/* Botão Google */}
-          // ✅ BOTÃO SOCIAL COM ÍCONE SVG
           <button
             type="button"
             className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
