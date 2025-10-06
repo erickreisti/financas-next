@@ -1,4 +1,4 @@
-// src/app/transactions/page.tsx
+// src/app/transactions/page.tsx - CORRIGIDA
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -108,7 +108,6 @@ export default function TransactionsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mb-8"
             >
               <TransactionFilters
                 filterType={filterType}
@@ -129,6 +128,7 @@ export default function TransactionsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
+              className="transactions-list-container"
             >
               <TransactionList
                 transactions={filteredTransactions}

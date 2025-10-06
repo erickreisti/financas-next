@@ -1,4 +1,4 @@
-// src/app/reports/page.tsx - LAYOUT REFACTORADO E MELHORADO
+// src/app/reports/page.tsx - CORRIGIDA
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -370,7 +370,7 @@ export default function ReportsPage() {
                     >
                       <div className="kpi-header">
                         <div
-                          className={`kpi-icon-container ${kpi.color === "green" ? "kpi-icon-success" : kpi.color === "red" ? "kpi-icon-error" : kpi.color === "blue" ? "kpi-icon-primary" : kpi.color === "purple" ? "kpi-icon-info" : "kpi-icon-warning"}`}
+                          className={`kpi-icon-container kpi-icon-${kpi.color}`}
                         >
                           <Icon className="kpi-icon" />
                         </div>
@@ -418,45 +418,37 @@ export default function ReportsPage() {
                 {reportType === "overview" && (
                   <div className="overview-grid">
                     <div className="overview-chart">
-                      <div className="card">
-                        <AnalyticsChart
-                          timeRange={timeRange}
-                          transactions={filteredTransactions}
-                        />
-                      </div>
+                      <AnalyticsChart
+                        timeRange={timeRange}
+                        transactions={filteredTransactions}
+                      />
                     </div>
                     <div className="overview-breakdown">
-                      <div className="card">
-                        <CategoryBreakdown
-                          data={categoryBreakdown}
-                          timeRange={timeRange}
-                        />
-                      </div>
+                      <CategoryBreakdown
+                        data={categoryBreakdown}
+                        timeRange={timeRange}
+                      />
                     </div>
                   </div>
                 )}
 
                 {reportType === "categories" && (
                   <div className="categories-content">
-                    <div className="card">
-                      <CategoryBreakdown
-                        data={categoryBreakdown}
-                        detailed
-                        timeRange={timeRange}
-                      />
-                    </div>
+                    <CategoryBreakdown
+                      data={categoryBreakdown}
+                      detailed
+                      timeRange={timeRange}
+                    />
                   </div>
                 )}
 
                 {reportType === "trends" && (
                   <div className="trends-content">
-                    <div className="card">
-                      <AnalyticsChart
-                        timeRange={timeRange}
-                        showTrends
-                        transactions={filteredTransactions}
-                      />
-                    </div>
+                    <AnalyticsChart
+                      timeRange={timeRange}
+                      showTrends
+                      transactions={filteredTransactions}
+                    />
                   </div>
                 )}
               </div>
