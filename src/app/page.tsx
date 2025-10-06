@@ -1,62 +1,60 @@
-// src/app/page.tsx - VERIFICAR
+// src/app/page.tsx - ATUALIZADO
 import React from "react";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* ✅ Header agora pode usar useTheme porque está dentro de ThemeProvider */}
+    <div className="home-container">
       <Header />
       <Navigation />
 
-      <main className="flex-1 container mx-auto py-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-8">💰 Minhas Finanças</h1>
-
-          <p className="text-xl mb-8">
-            Bem-vindo ao seu app de controle financeiro
+      <main className="home-main">
+        <div className="hero-section">
+          <h1 className="hero-title">💰 Finanças Pro</h1>
+          <p className="hero-subtitle">
+            Controle suas finanças de forma inteligente e simplificada
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <a
-              href="/dashboard"
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow group"
-            >
-              <h2 className="text-2xl font-semibold mb-2">📊 Dashboard</h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Visão geral das suas finanças
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">📊</div>
+              <h2 className="feature-title">Dashboard Completo</h2>
+              <p className="feature-description">
+                Visualize todas as suas métricas financeiras em um só lugar com
+                gráficos interativos e relatórios detalhados.
               </p>
-              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                →
-              </span>
-            </a>
+              <a href="/dashboard" className="feature-link">
+                Acessar Dashboard
+                <span>→</span>
+              </a>
+            </div>
 
-            <a
-              href="/transactions"
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow group"
-            >
-              <h2 className="text-2xl font-semibold mb-2">📋 Transações</h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Gerencie todas as suas transações
+            <div className="feature-card">
+              <div className="feature-icon">📋</div>
+              <h2 className="feature-title">Gestão de Transações</h2>
+              <p className="feature-description">
+                Adicione, edite e categorize suas receitas e despesas com
+                interface intuitiva e busca avançada.
               </p>
-              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                →
-              </span>
-            </a>
+              <a href="/transactions" className="feature-link">
+                Ver Transações
+                <span>→</span>
+              </a>
+            </div>
 
-            <a
-              href="/reports"
-              className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition-shadow group"
-            >
-              <h2 className="text-2xl font-semibold mb-2">📈 Relatórios</h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Análises e insights financeiros
+            <div className="feature-card">
+              <div className="feature-icon">📈</div>
+              <h2 className="feature-title">Relatórios Avançados</h2>
+              <p className="feature-description">
+                Análises detalhadas por categoria, tendências temporais e
+                insights para melhorar suas finanças.
               </p>
-              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                →
-              </span>
-            </a>
+              <a href="/reports" className="feature-link">
+                Ver Relatórios
+                <span>→</span>
+              </a>
+            </div>
           </div>
         </div>
       </main>

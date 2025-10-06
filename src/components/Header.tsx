@@ -1,4 +1,4 @@
-// src/components/Header.tsx - PROFISSIONAL
+// src/components/Header.tsx - ATUALIZADO
 "use client";
 
 import React from "react";
@@ -64,7 +64,7 @@ const Header = () => {
               <User className="w-6 h-6" />
             </div>
             <div className="user-info">
-              <span className="user-name">Usuário</span>
+              <span className="user-name">Érick Reis</span>
               <span className="user-role">Premium</span>
             </div>
           </div>

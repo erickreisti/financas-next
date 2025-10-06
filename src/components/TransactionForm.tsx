@@ -1,4 +1,4 @@
-// src/components/TransactionForm.tsx - Loading animado corrigido
+// src/components/TransactionForm.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -66,11 +66,7 @@ const TransactionForm = ({
     >
       {/* Select para tipo de transação */}
       <div>
-        <select
-          name="type"
-          required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-        >
+        <select name="type" required className="filter-select w-full">
           <option value="">Selecione o tipo</option>
           <option value="receita">Receita</option>
           <option value="despesa">Despesa</option>
@@ -84,17 +80,13 @@ const TransactionForm = ({
           name="description"
           placeholder="Descrição"
           required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          className="filter-select w-full"
         />
       </div>
 
       {/* Select para categoria */}
       <div>
-        <select
-          name="category"
-          required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-        >
+        <select name="category" required className="filter-select w-full">
           <option value="">Selecione a categoria</option>
           <option value="salario">Salário</option>
           <option value="alimentacao">Alimentação</option>
@@ -114,7 +106,7 @@ const TransactionForm = ({
           placeholder="Valor (R$)"
           step="0.01"
           required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          className="filter-select w-full"
         />
       </div>
 
@@ -125,7 +117,7 @@ const TransactionForm = ({
           name="date"
           defaultValue={new Date().toISOString().split("T")[0]}
           required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          className="filter-select w-full"
         />
       </div>
 
@@ -158,7 +150,7 @@ const TransactionForm = ({
         disabled={isPending}
         whileHover={{ scale: isPending ? 1 : 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-md font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="btn btn-primary w-full"
       >
         {isPending ? (
           <motion.div

@@ -21,9 +21,9 @@ const FinancialChart = () => {
   const chartHeight = 200;
 
   return (
-    <div className="chart-card">
-      <div className="chart-header">
-        <h3 className="chart-title">Fluxo Financeiro Mensal</h3>
+    <div className="card">
+      <div className="card-header">
+        <h3 className="card-title">📈 Fluxo Financeiro Mensal</h3>
         <div className="chart-legend">
           <div className="legend-item">
             <div className="legend-color income-color"></div>

@@ -44,8 +44,8 @@ const TransactionFilters = ({
 
       <div className="filters-content">
         {/* Barra de Pesquisa */}
-        <div className="search-filter">
-          <div className="search-input-wrapper">
+        <div className="search-filter mb-6">
+          <div className="search-container">
             <Search className="search-icon" />
             <input
               type="text"

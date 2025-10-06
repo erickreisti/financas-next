@@ -33,9 +33,10 @@ const BudgetOverview = () => {
   ];
 
   const getProgressColor = (percentage: number) => {
-    if (percentage >= 90) return "bg-red-500";
-    if (percentage >= 75) return "bg-orange-500";
-    return "bg-green-500";
+    if (percentage >= 90) return "bg-gradient-to-r from-red-500 to-red-600";
+    if (percentage >= 75)
+      return "bg-gradient-to-r from-orange-500 to-orange-600";
+    return "bg-gradient-to-r from-green-500 to-green-600";
   };
 
   const getTrendIcon = (trend: string) => {
@@ -57,9 +58,9 @@ const BudgetOverview = () => {
   };
 
   return (
-    <div className="budget-card">
+    <div className="card">
       <div className="card-header">
-        <h3 className="card-title">Visão do Orçamento</h3>
+        <h3 className="card-title">💰 Visão do Orçamento</h3>
         <span className="budget-period">Mensal</span>
       </div>
 

@@ -1,4 +1,4 @@
-// src/app/dashboard/page.tsx - PROFISSIONAL
+// src/app/dashboard/page.tsx
 "use client";
 
 import React from "react";
@@ -15,16 +15,6 @@ import BudgetOverview from "@/components/BudgetOverview";
 export default function DashboardPage() {
   const { transactions, calculateTotal } = useTransactions();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
     <div className="professional-layout">
       <Header />
@@ -34,9 +24,9 @@ export default function DashboardPage() {
 
         <main className="main-content">
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             className="dashboard-container"
           >
             {/* Cabeçalho do Dashboard */}
@@ -64,67 +54,52 @@ export default function DashboardPage() {
               {/* Coluna Esquerda */}
               <div className="dashboard-column">
                 {/* Estatísticas Rápidas */}
-                <div className="card">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
                   <DashboardStats />
-                </div>
+                </motion.div>
 
                 {/* Gráfico Financeiro */}
-                <div className="card">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
                   <FinancialChart />
-                </div>
+                </motion.div>
 
                 {/* Transações Recentes */}
-                <div className="card">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
                   <RecentTransactions />
-                </div>
+                </motion.div>
               </div>
 
               {/* Coluna Direita */}
               <div className="sidebar-column">
                 {/* Ações Rápidas */}
-                <div className="card">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
                   <QuickActions />
-                </div>
+                </motion.div>
 
                 {/* Visão Geral do Orçamento */}
-                <div className="card">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
                   <BudgetOverview />
-                </div>
-
-                {/* Metas */}
-                <div className="goals-card">
-                  <h3 className="card-title">Metas Financeiras</h3>
-                  <div className="goals-list">
-                    <div className="goal-item">
-                      <div className="goal-info">
-                        <span className="goal-name">Reserva de Emergência</span>
-                        <span className="goal-progress">
-                          R$ 8.500 / R$ 15.000
-                        </span>
-                      </div>
-                      <div className="goal-bar">
-                        <div
-                          className="goal-progress-bar"
-                          style={{ width: "56%" }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="goal-item">
-                      <div className="goal-info">
-                        <span className="goal-name">Viagem Internacional</span>
-                        <span className="goal-progress">
-                          R$ 3.200 / R$ 10.000
-                        </span>
-                      </div>
-                      <div className="goal-bar">
-                        <div
-                          className="goal-progress-bar"
-                          style={{ width: "32%" }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>

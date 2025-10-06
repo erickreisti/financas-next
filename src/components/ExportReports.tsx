@@ -93,13 +93,12 @@ const ExportReports = () => {
       `Exportando ${reportType} em formato ${exportFormat} para período ${period}`
     );
     setIsOpen(false);
-    // Aqui você implementaria a lógica real de exportação
   };
 
   return (
     <div className="export-reports">
-      <button onClick={() => setIsOpen(true)} className="export-trigger-btn">
-        <Download className="btn-icon" />
+      <button onClick={() => setIsOpen(true)} className="btn btn-primary">
+        <Download className="w-4 h-4" />
         <span>Exportar Relatório</span>
       </button>
 

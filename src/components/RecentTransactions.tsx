@@ -56,55 +56,69 @@ const RecentTransactions = () => {
   };
 
   return (
-    <div className="transactions-card">
+    <div className="card">
       <div className="card-header">
-        <h3 className="card-title">Transações Recentes</h3>
-        <button className="view-all-btn">Ver todas</button>
+        <h3 className="card-title">📊 Transações Recentes</h3>
+        <button className="btn btn-secondary">Ver todas</button>
       </div>
 
-      <div className="transactions-list">
+      <div className="transactions-grid">
         {recentTransactions.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">💸</div>
-            <p className="empty-text">Nenhuma transação encontrada</p>
-            <p className="empty-description">
+          <div className="empty-state text-center py-12">
+            <div className="text-4xl mb-4">💸</div>
+            <p className="text-gray-600 dark:text-gray-400 font-medium">
+              Nenhuma transação encontrada
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
               Adicione sua primeira transação para começar
             </p>
           </div>
         ) : (
-          recentTransactions.map((transaction) => (
-            <div key={transaction.id} className="transaction-row">
-              <div className="transaction-icon">
-                {transaction.type === "receita" ? (
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                ) : (
-                  <TrendingDown className="w-4 h-4 text-red-600" />
-                )}
-              </div>
-
-              <div className="transaction-info">
-                <div className="transaction-main">
-                  <span className="transaction-description">
-                    {transaction.description}
-                  </span>
-                  <span
-                    className={`transaction-amount ${transaction.type === "receita" ? "amount-income" : "amount-expense"}`}
-                  >
-                    {transaction.type === "receita" ? "+" : "-"}
-                    {formatCurrency(transaction.amount)}
-                  </span>
+          recentTransactions.map((transaction, index) => (
+            <div
+              key={transaction.id}
+              className={`transaction-card ${transaction.type === "receita" ? "transaction-income" : "transaction-expense"}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="transaction-main">
+                <div className="transaction-icon">
+                  {transaction.type === "receita" ? (
+                    <TrendingUp className="w-4 h-4" />
+                  ) : (
+                    <TrendingDown className="w-4 h-4" />
+                  )}
                 </div>
 
-                <div className="transaction-meta">
-                  <span className="transaction-date">
-                    {formatDate(transaction.date)}
-                  </span>
-                  <span
-                    className={`transaction-category ${getCategoryColor(transaction.category)}`}
-                  >
-                    {categoryNames[transaction.category] ||
-                      transaction.category}
-                  </span>
+                <div className="transaction-content">
+                  <div className="transaction-header">
+                    <span className="transaction-description">
+                      {transaction.description}
+                    </span>
+                    <span
+                      className={`transaction-amount ${
+                        transaction.type === "receita"
+                          ? "amount-income"
+                          : "amount-expense"
+                      }`}
+                    >
+                      {transaction.type === "receita" ? "+" : "-"}
+                      {formatCurrency(transaction.amount)}
+                    </span>
+                  </div>
+
+                  <div className="transaction-details">
+                    <div className="transaction-meta">
+                      <span className="meta-item">
+                        {formatDate(transaction.date)}
+                      </span>
+                      <span
+                        className={`category-tag ${getCategoryColor(transaction.category)}`}
+                      >
+                        {categoryNames[transaction.category] ||
+                          transaction.category}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 

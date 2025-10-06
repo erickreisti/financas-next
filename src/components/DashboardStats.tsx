@@ -26,7 +26,7 @@ const DashboardStats = () => {
       change: "+12.5%",
       trend: "up",
       icon: Wallet,
-      color: "blue",
+      color: "primary",
     },
     {
       title: "Receitas",
@@ -34,7 +34,7 @@ const DashboardStats = () => {
       change: "+8.2%",
       trend: "up",
       icon: TrendingUp,
-      color: "green",
+      color: "success",
     },
     {
       title: "Despesas",
@@ -42,7 +42,7 @@ const DashboardStats = () => {
       change: "-3.1%",
       trend: "down",
       icon: TrendingDown,
-      color: "red",
+      color: "error",
     },
     {
       title: "Taxa de Economia",
@@ -66,37 +66,27 @@ const DashboardStats = () => {
     return `${value.toFixed(1)}%`;
   };
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
-      green:
-        "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400",
-      red: "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400",
-      purple:
-        "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400",
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
   return (
     <div className="stats-grid">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
-          <div key={stat.title} className="stat-card">
+          <div key={stat.title} className="stat-card fade-in-up">
             <div className="stat-header">
-              <div className={`stat-icon ${getColorClasses(stat.color)}`}>
+              <div className="stat-icon">
                 <Icon className="w-5 h-5" />
               </div>
               <div
-                className={`change-badge ${stat.trend === "up" ? "change-positive" : "change-negative"}`}
+                className={`change-badge ${
+                  stat.trend === "up" ? "change-positive" : "change-negative"
+                }`}
               >
                 {stat.change}
               </div>
             </div>
 
             <div className="stat-content">
-              <h3 className="stat-title">{stat.title}</h3>
+              <h3>{stat.title}</h3>
               <p className="stat-value">
                 {stat.isPercentage
                   ? formatPercentage(stat.value)
@@ -104,10 +94,13 @@ const DashboardStats = () => {
               </p>
             </div>
 
-            {/* Progress Bar */}
             <div className="stat-progress">
               <div
-                className={`progress-bar ${stat.trend === "up" ? "progress-positive" : "progress-negative"}`}
+                className={`progress-bar ${
+                  stat.trend === "up"
+                    ? "progress-positive"
+                    : "progress-negative"
+                }`}
                 style={{
                   width: `${Math.min((Math.abs(stat.value) / 10000) * 100, 100)}%`,
                 }}

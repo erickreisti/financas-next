@@ -1,4 +1,4 @@
-// src/app/transactions/page.tsx - LAYOUT REFACTORADO
+// src/app/transactions/page.tsx
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -8,7 +8,7 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import TransactionList from "@/components/TransactionList";
 import TransactionFilters from "@/components/TransactionFilters";
-import { Plus, Download, Upload, Filter, FileText } from "lucide-react";
+import { Plus, Download, Upload } from "lucide-react";
 
 export default function TransactionsPage() {
   const { transactions, deleteTransaction } = useTransactions();
@@ -67,24 +67,6 @@ export default function TransactionsPage() {
     return filtered;
   }, [transactions, filterType, filterCategory, searchTerm, sortBy, sortOrder]);
 
-  const handleExport = () => {
-    console.log("Exportando transações...");
-  };
-
-  const handleImport = () => {
-    console.log("Importando transações...");
-  };
-
-  const totalIncome = filteredTransactions
-    .filter((t) => t.type === "receita")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalExpenses = filteredTransactions
-    .filter((t) => t.type === "despesa")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const netBalance = totalIncome - totalExpenses;
-
   return (
     <div className="professional-layout">
       <Header />
@@ -106,11 +88,11 @@ export default function TransactionsPage() {
               </div>
 
               <div className="action-buttons">
-                <button onClick={handleImport} className="btn btn-secondary">
+                <button className="btn btn-secondary">
                   <Upload className="w-4 h-4" />
                   <span>Importar CSV</span>
                 </button>
-                <button onClick={handleExport} className="btn btn-secondary">
+                <button className="btn btn-secondary">
                   <Download className="w-4 h-4" />
                   <span>Exportar Excel</span>
                 </button>
@@ -121,90 +103,37 @@ export default function TransactionsPage() {
               </div>
             </motion.div>
 
-            {/* Resumo Financeiro */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="financial-summary"
-            >
-              <div className="summary-card summary-income">
-                <h3>Total de Receitas</h3>
-                <p className="amount">
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(totalIncome)}
-                </p>
-                <div className="change">+12.5%</div>
-              </div>
-
-              <div className="summary-card summary-expense">
-                <h3>Total de Despesas</h3>
-                <p className="amount">
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(totalExpenses)}
-                </p>
-                <div className="change">-3.2%</div>
-              </div>
-
-              <div
-                className={`summary-card ${netBalance >= 0 ? "summary-balance" : "summary-expense"}`}
-              >
-                <h3>Saldo Líquido</h3>
-                <p className="amount">
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(netBalance)}
-                </p>
-                <div className="change">
-                  {netBalance >= 0 ? "+" : ""}
-                  {totalIncome > 0
-                    ? ((netBalance / totalIncome) * 100).toFixed(1)
-                    : "0"}
-                  %
-                </div>
-              </div>
-            </motion.div>
-
             {/* Filtros */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-6"
+              transition={{ delay: 0.1 }}
+              className="mb-8"
             >
-              <div className="card">
-                <TransactionFilters
-                  filterType={filterType}
-                  filterCategory={filterCategory}
-                  searchTerm={searchTerm}
-                  sortBy={sortBy}
-                  sortOrder={sortOrder}
-                  onFilterTypeChange={setFilterType}
-                  onFilterCategoryChange={setFilterCategory}
-                  onSearchChange={setSearchTerm}
-                  onSortChange={setSortBy}
-                  onSortOrderChange={setSortOrder}
-                />
-              </div>
+              <TransactionFilters
+                filterType={filterType}
+                filterCategory={filterCategory}
+                searchTerm={searchTerm}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onFilterTypeChange={setFilterType}
+                onFilterCategoryChange={setFilterCategory}
+                onSearchChange={setSearchTerm}
+                onSortChange={setSortBy}
+                onSortOrderChange={setSortOrder}
+              />
             </motion.div>
 
             {/* Lista de Transações */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.2 }}
             >
-              <div className="card">
-                <TransactionList
-                  transactions={filteredTransactions}
-                  onDeleteTransaction={deleteTransaction}
-                />
-              </div>
+              <TransactionList
+                transactions={filteredTransactions}
+                onDeleteTransaction={deleteTransaction}
+              />
             </motion.div>
           </div>
         </main>

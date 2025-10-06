@@ -1,4 +1,4 @@
-// src/components/AnimatedCard.tsx - CORRIGIDO
+// src/components/AnimatedCard.tsx - ATUALIZADO
 "use client";
 
 import { motion } from "framer-motion";
@@ -20,14 +20,13 @@ export const AnimatedCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className={className}
+      className={`animated-card ${className}`}
     >
       {children}
     </motion.div>
   );
 };
 
-// Interface para o componente SlideIn
 interface SlideInProps {
   children: ReactNode;
   className?: string;
@@ -39,69 +38,60 @@ export const SlideIn = ({
   className = "",
   direction = "left",
 }: SlideInProps) => {
-  // Definindo as direções com tipo explícito
-  const directions = {
-    left: { x: -50 },
-    right: { x: 50 },
-    up: { y: 50 },
-    down: { y: -50 },
-  };
+  const directionClass = `slide-in-${direction}`;
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...directions[direction] }}
+      initial={{
+        opacity: 0,
+        x: direction === "left" ? -50 : direction === "right" ? 50 : 0,
+        y: direction === "up" ? 50 : direction === "down" ? -50 : 0,
+      }}
       animate={{ opacity: 1, x: 0, y: 0 }}
       transition={{ duration: 0.6 }}
-      className={className}
+      className={`${directionClass} ${className}`}
     >
       {children}
     </motion.div>
   );
 };
 
-// Componente adicional para animação de lista
 interface StaggerListProps {
   children: ReactNode;
   className?: string;
 }
 
 export const StaggerList = ({ children, className = "" }: StaggerListProps) => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
     <motion.div
-      variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className={className}
+      variants={{
+        visible: {
+          transition: {
+            staggerChildren: 0.1,
+          },
+        },
+      }}
+      className={`stagger-list ${className}`}
     >
       {children}
     </motion.div>
   );
 };
 
-// Componente para itens da lista com animação
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
 }
 
 export const StaggerItem = ({ children, className = "" }: StaggerItemProps) => {
-  const itemVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  };
-
   return (
-    <motion.div variants={itemVariants} className={className}>
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className={`stagger-item ${className}`}
+    >
       {children}
     </motion.div>
   );

@@ -158,16 +158,19 @@ export default function AnalyticsChart({
   };
 
   return (
-    <div className="bg-white rounded-xl p-6">
+    <div className="card">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+          <h3 className="card-title">
             {showTrends ? (
-              <TrendingUp className="w-5 h-5" />
+              <>
+                <TrendingUp className="w-5 h-5" /> Tendências Financeiras
+              </>
             ) : (
-              <BarChart3 className="w-5 h-5" />
+              <>
+                <BarChart3 className="w-5 h-5" /> Visão Geral
+              </>
             )}
-            {showTrends ? "Tendências Financeiras" : "Visão Geral"}
           </h3>
           <p className="text-gray-600 text-sm">
             Período:{" "}

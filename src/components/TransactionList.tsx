@@ -1,8 +1,8 @@
-// src/components/TransactionList.tsx - PROFISSIONAL
+// src/components/TransactionList.tsx
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   TrendingUp,
   TrendingDown,
@@ -86,42 +86,6 @@ const TransactionList = ({
     setActiveMenu(activeMenu === id ? null : id);
   };
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
-    },
-    exit: {
-      opacity: 0,
-      x: -50,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const menuVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.95 },
-  };
-
   return (
     <div className="transactions-container">
       <div className="transactions-header">
@@ -139,31 +103,32 @@ const TransactionList = ({
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="empty-transactions"
+            className="empty-transactions text-center py-16"
           >
-            <div className="empty-icon">💸</div>
+            <div className="text-6xl mb-4">💸</div>
             <div className="empty-content">
-              <h4 className="empty-title">Nenhuma transação</h4>
-              <p className="empty-description">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                Nenhuma transação
+              </h4>
+              <p className="text-gray-600 dark:text-gray-400">
                 Adicione sua primeira transação para começar a controlar suas
                 finanças
               </p>
             </div>
           </motion.div>
         ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="transactions-grid"
-          >
-            {transactions.map((transaction) => (
+          <div className="transactions-grid">
+            {transactions.map((transaction, index) => (
               <motion.div
                 key={transaction.id}
-                variants={itemVariants}
-                layout
-                exit="exit"
-                className={`transaction-card ${transaction.type === "receita" ? "transaction-income" : "transaction-expense"}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className={`transaction-card ${
+                  transaction.type === "receita"
+                    ? "transaction-income"
+                    : "transaction-expense"
+                }`}
               >
                 <div className="transaction-main">
                   <div className="transaction-icon">
@@ -180,7 +145,11 @@ const TransactionList = ({
                         {transaction.description}
                       </h4>
                       <span
-                        className={`transaction-amount ${transaction.type === "receita" ? "amount-income" : "amount-expense"}`}
+                        className={`transaction-amount ${
+                          transaction.type === "receita"
+                            ? "amount-income"
+                            : "amount-expense"
+                        }`}
                       >
                         {transaction.type === "receita" ? "+" : "-"}
                         {formatCurrency(transaction.amount)}
@@ -219,10 +188,9 @@ const TransactionList = ({
                     <AnimatePresence>
                       {activeMenu === transaction.id && (
                         <motion.div
-                          variants={menuVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="exit"
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
                           className="menu-dropdown"
                         >
                           <button
@@ -252,7 +220,7 @@ const TransactionList = ({
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

@@ -1,4 +1,4 @@
-// src/components/Sidebar.tsx - PROFISSIONAL
+// src/components/Sidebar.tsx - ATUALIZADO
 "use client";
 
 import React from "react";
