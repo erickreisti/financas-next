@@ -1,4 +1,4 @@
-// src/components/QuickActions.tsx
+// src/components/QuickActions.tsx - CORRIGIDO
 "use client";
 
 import React from "react";
@@ -44,20 +44,6 @@ const QuickActions = () => {
     },
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      primary:
-        "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400",
-      success:
-        "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400",
-      info: "bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20 dark:text-cyan-400",
-      warning:
-        "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400",
-      gray: "bg-gray-50 text-gray-600 dark:bg-gray-900/20 dark:text-gray-400",
-    };
-    return colors[color as keyof typeof colors] || colors.primary;
-  };
-
   return (
     <div className="card">
       <h3 className="card-title">⚡ Ações Rápidas</h3>
@@ -76,7 +62,7 @@ const QuickActions = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <div className={`action-icon ${getColorClasses(action.color)}`}>
+              <div className="action-icon">
                 <Icon className="w-5 h-5" />
               </div>
 

@@ -1,4 +1,4 @@
-// src/components/FinancialChart.tsx
+// src/components/FinancialChart.tsx - CORRIGIDO
 "use client";
 
 import React from "react";

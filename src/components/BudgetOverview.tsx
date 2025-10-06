@@ -1,4 +1,4 @@
-// src/components/BudgetOverview.tsx
+// src/components/BudgetOverview.tsx - CORRIGIDO
 "use client";
 
 import React from "react";
@@ -61,7 +61,7 @@ const BudgetOverview = () => {
     <div className="card">
       <div className="card-header">
         <h3 className="card-title">💰 Visão do Orçamento</h3>
-        <span className="budget-period">Mensal</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">Mensal</span>
       </div>
 
       <div className="budgets-list">
